@@ -1,26 +1,22 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
-import { userSignIn, resetUserState } from '../../Actions/userActions'
-import { Link, useHistory } from 'react-router-dom'
+import { userRegister } from '../../Actions/userActions'
+import { Link , useHistory} from 'react-router-dom'
 import { Input, Form, Button, Icon } from 'semantic-ui-react'
 import './SignInWindow.scss'
 
 const SignIn = props => {
-    const { push, listen } = useHistory();
+    const { push } = useHistory();
     const [hidePass, setHidePass] = useState(true);
     const [values, updateValues] = useState({
         username: "",
-        password: "",
+        email: "",
+        password: ""
     })
 
-    // pushes user to landing on login success
     useEffect(() => {
-        if (props.signInSuccess) push("/");
-    }, [props.signInSuccess, push])
-
-    listen(() =>  {
-        props.resetUserState();
-    });
+        if (props.registerSuccess) push("/sign-in");
+    }, [props.registerSuccess, push])
 
     const handleChanges = event => {
         updateValues({
@@ -31,24 +27,33 @@ const SignIn = props => {
 
     const handleSubmit = async event => {
         event.preventDefault();
-        props.userSignIn(values)
+        props.userRegister(values)
     }
 
     return (
-        <div className="SignInWindow sign-in">
+        <div className="SignInWindow sign-up">
             <div className="background-overlay">
                 <div className="window">
-                    <h2>Welcome Back</h2>
-                    <Form className="window-inputs form-signin" onSubmit={handleSubmit}>
+                    <h2>New User</h2>
+                    <Form className="window-inputs form-signup" autoComplete="new-password" onSubmit={handleSubmit}>
                         <div className="error">
-                            {props.signInError}
+                            {props.registerError}
                         </div>
-                        <Input
-                            fluid 
+                        <Input 
+                            fluid
+                            label={{ icon: 'asterisk' }}
+                            labelPosition='left corner'
                             placeholder="Username" 
-                            type="text" 
-                            name="username"
+                            name="username" 
+                            autoComplete="off"
                             required
+                            onChange={handleChanges}
+                        />
+                        <Input 
+                            fluid 
+                            placeholder="Email" 
+                            type="email" 
+                            name="email"
                             onChange={handleChanges}
                         />
                         <div className="password-container">
@@ -56,8 +61,10 @@ const SignIn = props => {
                                 onClick={() => setHidePass(!hidePass)}
                                 className={hidePass ? "eye-icon" : "eye-icon"}
                                 name={hidePass ? "eye slash" : "eye"} />
-                            <Input
+                            <Input 
                                 fluid 
+                                label={{ icon: 'asterisk' }}
+                                labelPosition='left corner'
                                 placeholder="Password" 
                                 type={hidePass ? "password" : "text"} 
                                 name="password"
@@ -65,15 +72,13 @@ const SignIn = props => {
                                 onChange={handleChanges}
                             />
                         </div>
-                        {props.isSigningIn ?
-                        <Button fluid primary loading disabled>Loading</Button>
+                        {props.isRegistering ?
+                        <Button fluid loading type="button">Loading</Button>
                         :
-                        <Button fluid primary type="submit">Sign In</Button>
+                        <Button fluid primary type="submit">Sign Up</Button>
                         }
                     </Form>
-                    <div className="window-bottom">
-                        <div><Link to="/sign-up">Create an account</Link></div>
-                    </div>
+                    <div className="window-bottom"><Link to="/sign-in">Sign In</Link></div>
                 </div>
             </div>
         </div>
@@ -82,10 +87,10 @@ const SignIn = props => {
 
 const mapStateToProps = state => {
     return {
-        isSigningIn: state.userReducer.isSigningIn,
-        signInSuccess: state.userReducer.signInSuccess,
-        signInError: state.userReducer.signInError
+        isRegistering: state.userReducer.isRegistering,
+        registerSuccess: state.userReducer.registerSuccess,
+        registerError: state.userReducer.registerError
     }
 }
 
-export default connect(mapStateToProps, { userSignIn, resetUserState })(SignIn);
+export default connect(mapStateToProps, { userRegister })(SignIn)

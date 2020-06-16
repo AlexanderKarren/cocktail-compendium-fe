@@ -4,6 +4,7 @@ import { BrowserRouter as Router } from 'react-router-dom'
 
 // Styles and Fonts
 import './fonts/Lato-Regular.ttf'
+import './fonts/Lato-Light.ttf'
 import 'semantic-ui-css/semantic.min.css'
 import './index.scss';
 

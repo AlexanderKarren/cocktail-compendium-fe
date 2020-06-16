@@ -1,0 +1,35 @@
+.Search {
+    display:flex;
+    justify-content:space-between;
+    margin: 10px 0;
+    width:100%;
+    .search-sort {
+        width:18%;
+    }
+    .searchbar {
+        width:65%;
+        position:relative;
+        .searchbar-clear {
+            position:absolute;
+            z-index:1;
+            font-size:1.3rem;
+            right:5px;
+            top:25%;
+            transition:.2s;
+            color:lightgray;
+            &:hover {
+                color:black;
+                cursor:pointer;
+            }
+            &.hidden {
+                display:none;
+            }
+        }
+    }
+    .search-button {
+        width:15%;
+        * {
+            height:100%;
+        }
+    }
+}
