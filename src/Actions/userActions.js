@@ -1,60 +1,34 @@
-import axios from 'axios'
+import axiosWithAuth from '../utils/axiosWithAuth'
 
-export const START_SIGNING_IN = "START_SIGNING_IN"
-export const SIGN_IN_SUCCESS = "SIGN_IN_SUCCESS"
-export const SIGN_IN_FAILURE = "SIGN_IN_FAILURE"
-
-export const START_REGISTERING = "START_REGISTERING"
-export const REGISTER_SUCCESS = "REGISTER_SUCCESS"
-export const REGISTER_FAILURE = "REGISTER_FAILURE"
+export const FETCHING_USER = "FETCHING_USER"
+export const USER_MATCH = "USER_MATCH"
+export const USER_FAILURE = "USER_FAILURE"
 
 export const RESET_STATE = "RESET_STATE"
 
-export const userSignIn = user => async dispatch => {
+export const getCurrentUser = username => async dispatch => {
     dispatch({
-        type: START_SIGNING_IN
+        type: FETCHING_USER
     })
-    await axios.post('https://the-cocktail-compendium.herokuapp.com/api/users/login', user)
+
+    await axiosWithAuth().get(`/api/users/${username}`)
     .then(res => {
-        localStorage.setItem('user-token', JSON.stringify(res.data.token));
+        console.log("success, userMatch should update");
         dispatch({
-            type: SIGN_IN_SUCCESS
+            type: USER_MATCH,
+            payload: res.data
         })
     })
     .catch(error => {
-        console.log(error.response.data.error);
+        console.log("failure, userMatch remains false");
         dispatch({
-            type: SIGN_IN_FAILURE,
+            type: USER_FAILURE,
             payload: error.response.data.error
         })
-    });
+    })
 }
 
-export const userRegister = user => async dispatch => {
-    console.log((user.email.length > 0));
-    dispatch({
-        type: START_REGISTERING
-    })
-    await axios.post('https://the-cocktail-compendium.herokuapp.com/api/users/register', {
-        ...user,
-        email: (user.email.length > 0) ? user.email : null
-    })
-    .then(res => {
-        localStorage.setItem('user-token', JSON.stringify(res.data.token));
-        dispatch({
-            type: REGISTER_SUCCESS
-        })
-    })
-    .catch(error => {
-        console.log(error.response.data.error);
-        dispatch({
-            type: REGISTER_FAILURE,
-            payload: error.response.data.error
-        })
-    });
-}
-
-export const resetUserState = () => async dispatch => {
+export const resetState = () => dispatch => {
     dispatch({
         type: RESET_STATE
     })

@@ -1,0 +1,66 @@
+.UserPage {
+    width:100%;
+    .user-page-container {
+        padding-top:100px;
+        .user-header {
+            width:100%;
+            display:flex;
+            justify-content:space-between;
+            height:14rem;
+            .user-picture {
+                display:flex;
+                flex-direction:column;
+                align-items:center;
+                justify-content:space-between;
+                position:relative;
+                width:22%;
+                img {
+                    border-radius:10px;
+                    width: 80%;
+                }
+                .uploading {
+                    position:absolute;
+                    top:40%;
+                }
+                .upload-error {
+                    height:1.5rem;
+                }
+            }
+            .user-name {
+                display:flex;
+                flex-direction:column;
+                align-items:center;
+                width:56%;
+                h2 {
+                    width:100%;
+                    margin:0;
+                }
+                p {
+                    width:90%;
+                    text-align:center;
+                    span {
+                        font-weight:bold;
+                    }
+                }
+            }
+            .user-buttons {
+                display:flex;
+                flex-direction:column;
+                justify-content:space-between;
+                width:22%;
+                padding: 1.5rem 0;
+                button {
+                    display:flex;
+                    justify-content:space-between;
+                    i {
+                        font-size:1.2rem;
+                        color:white;
+                    }
+                }
+            }
+        }
+    }
+    .CocktailsList {
+        padding:0;
+    }
+}

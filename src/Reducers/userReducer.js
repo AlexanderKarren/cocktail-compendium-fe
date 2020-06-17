@@ -1,68 +1,42 @@
 import {
-    START_SIGNING_IN,
-    SIGN_IN_SUCCESS,
-    SIGN_IN_FAILURE,
-    START_REGISTERING,
-    REGISTER_SUCCESS,
-    REGISTER_FAILURE,
+    FETCHING_USER,
+    USER_MATCH,
+    USER_FAILURE,
     RESET_STATE
 } from '../Actions/userActions'
 
 export const initialState = {
-    isSigningIn: false,
-    isRegistering: false,
-    signInError: "",
-    registerError: "",
-    signInSuccess: false,
-    registerSuccess: false,
+    user: null,
+    fetchingUser: false,
+    userMatch: false,
+    userError: ""
 }
 
 export const userReducer = (state = initialState, action) => {
     switch(action.type) {
-        case START_SIGNING_IN:
+        case FETCHING_USER:
             return {
                 ...state,
-                isSigningIn: true,
-                signInError: ""
+                fetchingUser: true,
+                userError: ""
             }
-        case SIGN_IN_SUCCESS:
+        case USER_MATCH:
             return {
                 ...state,
-                isSigningIn: false,
-                signInSuccess: true,
-                signInError: ""
+                fetchingUser: false,
+                userMatch: true,
+                user: action.payload
             }
-        case SIGN_IN_FAILURE:
+        case USER_FAILURE:
             return {
                 ...state,
-                isSigningIn: false,
-                signInError: action.payload,
-                signInSuccess: false
-            }
-        case START_REGISTERING:
-            return {
-                ...state,
-                isRegistering: true,
-                registerError: ""
-            }
-        case REGISTER_SUCCESS:
-            return {
-                ...state,
-                isRegistering: false,
-                registerSuccess: true,
-                registerError: ""
-            }
-        case REGISTER_FAILURE:
-            return {
-                ...state,
-                isRegistering: false,
-                registerError: action.payload,
-                registerSuccess: false
+                user: null,
+                fetchingUser: false,
+                userMatch: false,
+                userError: action.payload
             }
         case RESET_STATE:
-            return {
-                ...initialState
-            }
+            return initialState
         default:
             return state;
     }

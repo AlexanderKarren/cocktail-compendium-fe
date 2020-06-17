@@ -51,9 +51,17 @@ p {
   line-height: 1.5rem;
 }
 
-a {
+a, .link-button {
   color:#4183C4;
   font-weight:bold;
+  &:hover {
+    cursor:pointer;
+    color:#1e70bf;
+  }
+}
+
+.link-button:hover {
+  cursor:pointer;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -82,7 +90,7 @@ img {
   flex-direction:column;
   align-items:center;
   padding: 0 15%;
-  .segment {
+  section {
     padding: 30px 0;
     width:100%;
     border-top:1px solid lightgray;
@@ -97,6 +105,21 @@ img {
       }
     }
   }
+  .search-result-message {
+    height:2rem;
+    overflow:hidden;
+    transition:.5s;
+    &.hidden {
+      height:0;
+    }
+  }
+}
+
+.page-loading {
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
 }
 
 .listing {
@@ -141,6 +164,7 @@ img {
   // }
   &:last-of-type {
     border-bottom:1px solid lightgray;
+    margin-bottom:25px;
   }
   // &:hover {
   //   background-color:#F5F5F5;

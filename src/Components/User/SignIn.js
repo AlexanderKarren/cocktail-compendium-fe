@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
-import { userSignIn, resetUserState } from '../../Actions/userActions'
+import { userSignIn, resetUserState } from '../../Actions/loginActions'
 import { Link, useHistory } from 'react-router-dom'
 import { Input, Form, Button, Icon } from 'semantic-ui-react'
 import './SignInWindow.scss'
@@ -15,8 +15,8 @@ const SignIn = props => {
 
     // pushes user to landing on login success
     useEffect(() => {
-        if (props.signInSuccess) push("/");
-    }, [props.signInSuccess, push])
+        if (props.signInSuccess) push(`/user/${props.username}`);
+    }, [props.signInSuccess, props.username, push])
 
     listen(() =>  {
         props.resetUserState();
@@ -82,9 +82,10 @@ const SignIn = props => {
 
 const mapStateToProps = state => {
     return {
-        isSigningIn: state.userReducer.isSigningIn,
-        signInSuccess: state.userReducer.signInSuccess,
-        signInError: state.userReducer.signInError
+        isSigningIn: state.loginReducer.isSigningIn,
+        signInSuccess: state.loginReducer.signInSuccess,
+        username: state.loginReducer.username,
+        signInError: state.loginReducer.signInError
     }
 }
 

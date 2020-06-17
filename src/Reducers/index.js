@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux'
+import { loginReducer } from './loginReducer'
+import { dataReducer } from './dataReducer'
 import { userReducer } from './userReducer'
-import { cocktailReducer } from './cocktailReducer'
 
 export default combineReducers({
-    userReducer,
-    cocktailReducer
+    loginReducer,
+    dataReducer,
+    userReducer
 });

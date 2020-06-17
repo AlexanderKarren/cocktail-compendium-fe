@@ -10,7 +10,7 @@ const CocktailListing = ({ cocktail }) => {
             <div className="listing-info">
                 <div className="listing-header">
                     <Link to="">{cocktail.name}</Link>
-                    <Link to="">{cocktail.posted_by}</Link>
+                    <Link to={`/user/${cocktail.posted_by}`}>{cocktail.posted_by}</Link>
                 </div>
                 <div className="listing-description">{cocktail.description}</div>
                 <div className="listing-date">

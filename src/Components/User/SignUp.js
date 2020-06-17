@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
-import { userRegister } from '../../Actions/userActions'
+import { userRegister } from '../../Actions/loginActions'
 import { Link , useHistory} from 'react-router-dom'
 import { Input, Form, Button, Icon } from 'semantic-ui-react'
 import './SignInWindow.scss'
@@ -87,9 +87,9 @@ const SignIn = props => {
 
 const mapStateToProps = state => {
     return {
-        isRegistering: state.userReducer.isRegistering,
-        registerSuccess: state.userReducer.registerSuccess,
-        registerError: state.userReducer.registerError
+        isRegistering: state.loginReducer.isRegistering,
+        registerSuccess: state.loginReducer.registerSuccess,
+        registerError: state.loginReducer.registerError
     }
 }
 

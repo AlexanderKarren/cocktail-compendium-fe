@@ -1,27 +1,30 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
-import { getCocktails } from '../../Actions/cocktailActions'
+import { getCocktails } from '../../Actions/dataActions'
 import PlaceholderListing from '../PlaceholderListing'
 import CocktailListing from './CocktailListing'
 import Search from '../Search'
-import './Cocktails.scss'
 
 const CocktailsList = props => {
-    const { getCocktails } = props;
+    const [query, setQuery] = useState("");
+    const { getCocktails, username } = props;
 
     useEffect(() => {
-        getCocktails()
-    }, [getCocktails])
+        getCocktails(username);
+    }, [getCocktails, username])
 
     return (
         <div className="CocktailsList page list">
-            <h2 className="first">Cocktails</h2>
-            <Search getCocktails={getCocktails} fetchingCocktails={props.fetchingCocktails}/>
+            {!username && <h2 className="first">Cocktails</h2>}
+            <Search getData={getCocktails} fetchData={props.fetchingData} setQuery={setQuery} username={username}/>
+            <div className={query.length > 0 ? "search-result-message" : "search-result-message hidden"}>
+                {query.length > 0 && `Showing results for "${query}"`}
+            </div>
             {props.length > 0 ? <div>{props.error}</div>
             :
-            (props.fetchingCocktails ? 
+            (props.fetchingData ? 
             [...Array(5)].map((e, i) => <PlaceholderListing key={i}>♦</PlaceholderListing>)
-            : props.cocktails.map(cocktail => {
+            : props.data.map(cocktail => {
                 return <CocktailListing cocktail={cocktail} />
             }))
             }
@@ -31,9 +34,9 @@ const CocktailsList = props => {
 
 const mapStateToProps = state => {
     return {
-        cocktails: state.cocktailReducer.cocktails,
-        fetchingCocktails: state.cocktailReducer.fetchingCocktails,
-        error: state.cocktailReducer.cocktailError
+        data: state.dataReducer.data,
+        fetchingData: state.dataReducer.fetchingData,
+        error: state.dataReducer.fetchError
     }
 }
 

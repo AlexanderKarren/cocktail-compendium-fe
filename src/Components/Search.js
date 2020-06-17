@@ -3,14 +3,16 @@ import { Select, Form, Input, Button, Icon } from 'semantic-ui-react'
 import './Search.scss'
 
 const cocktailOptions = [
+    { key: 'cocktails.date_posted&dir=desc', value: 'cocktails.date_posted&dir=desc', text: 'Date (newest)' },
+    { key: 'cocktails.date_posted', value: 'cocktails.date_posted', text: 'Date (oldest)' },
     { key: 'cocktails.name', value: 'cocktails.name', text: 'Name' },
-    { key: 'cocktails.date_posted', value: 'cocktails.date_posted', text: 'Date' },
     { key: 'cocktails.location_origin', value: 'cocktails.location_origin', text: 'Origin' },
     { key: 'users.username', value: 'users.username', text: 'Username' }
 ]
 
-const Search = ({ getCocktails, fetchingCocktails }) => {
+const Search = ({ getData, fetchingData, setQuery, username }) => {
     const [search, updateSearch] = useState("");
+    const [sort, updateSort] = useState("");
     const [clearVisible, updateClear] = useState(false);
 
     useEffect(() => {
@@ -19,22 +21,27 @@ const Search = ({ getCocktails, fetchingCocktails }) => {
         };
     }, [search])
 
-    const handleChanges = event => {
+    const handleSearchChanges = event => {
         updateClear(true)
         updateSearch(event.target.value);
     }
 
+    const handleSortChange = (e, data) => {
+        updateSort(data.value);
+        getData(username, null, data.value)
+    }
+
     const handleSubmit = event => {
         event.preventDefault();
-        getCocktails(search);
+        setQuery(search);
+        getData(username, search, sort);
     }
 
     const clearSearch = () => {
-        if (search.length > 0) {
-            updateSearch("");
-            updateClear(false);
-            getCocktails();
-        };
+        updateSearch("");
+        updateClear(false);
+        setQuery("");
+        getData(username, null, sort);
     }
 
     return (
@@ -44,6 +51,7 @@ const Search = ({ getCocktails, fetchingCocktails }) => {
                     fluid 
                     placeholder="Sort"
                     options={cocktailOptions}
+                    onChange={handleSortChange}
                 />
             </div>
             <div className="searchbar">
@@ -55,12 +63,13 @@ const Search = ({ getCocktails, fetchingCocktails }) => {
                 <Input 
                     fluid 
                     placeholder="Search..."
-                    onChange={handleChanges}
+                    onChange={handleSearchChanges}
                     value={search}
+                    required
                 />
             </div>
             <div className="search-button">
-                {fetchingCocktails ?
+                {fetchingData ?
                 <Button fluid primary loading disabled>Loading</Button>
                 :   
                 <Button fluid primary type="submit">Search</Button>}
