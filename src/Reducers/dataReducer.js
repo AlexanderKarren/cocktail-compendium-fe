@@ -2,20 +2,27 @@ import {
     FETCHING_DATA,
     FETCH_SUCCESS,
     FETCH_FAILURE,
-    RESET_STATE
+    RESET_STATE,
+    DELETING_DATA,
+    DELETE_SUCCESS,
+    DELETE_FAILURE
 } from '../Actions/dataActions'
 
 export const initialState = {
     data: [],
     fetchingData: false,
     fetchSuccess: false,
-    fetchError: ""
+    fetchError: "",
+    deletingData: false,
+    deleteSuccess: false,
+    deleteError: ""
 }
 
 export const dataReducer = (state = initialState, action) => {
     switch(action.type) {
         case FETCHING_DATA:
             return {
+                ...state,
                 data: [],
                 fetchingData: true,
                 fetchSuccess: false,
@@ -23,6 +30,7 @@ export const dataReducer = (state = initialState, action) => {
             }
         case FETCH_SUCCESS:
             return {
+                ...state,
                 data: action.payload,
                 fetchingData: false,
                 fetchSuccess: true,
@@ -30,10 +38,32 @@ export const dataReducer = (state = initialState, action) => {
             }
         case FETCH_FAILURE:
             return {
+                ...state,
                 data: [],
                 fetchingData: false,
                 fetchSuccess: false,
                 fetchError: action.payload
+            }
+        case DELETING_DATA:
+            return {
+                ...state,
+                deletingData: true,
+                deleteSuccess: false,
+                deleteError: ""
+            }
+        case DELETE_SUCCESS:
+            return {
+                ...state,
+                deletingData: false,
+                deleteSuccess: true,
+                deleteError: ""
+            }
+        case DELETE_FAILURE:
+            return {
+                ...state,
+                deletingData: false,
+                deleteSuccess: false,
+                deleteError: action.payload
             }
         case RESET_STATE:
             return initialState;

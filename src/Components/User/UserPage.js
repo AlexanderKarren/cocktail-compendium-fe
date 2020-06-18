@@ -3,8 +3,8 @@ import Moment from 'react-moment'
 import axios from 'axios'
 import axiosWithAuth from '../../utils/axiosWithAuth'
 import { connect } from 'react-redux'
-import { useParams } from 'react-router-dom'
-import CocktailList from '../Cocktails/CocktailsList'
+import { useParams, useHistory } from 'react-router-dom'
+import DataList from '../Cocktails/DataList'
 import { Select, Loader, Icon, Button } from 'semantic-ui-react'
 import aviPlaceholder from '../../images/placeholders/user.png'
 import './UserPage.scss'
@@ -19,7 +19,9 @@ const UserPage = () => {
     const [user, updateUser] = useState(null);
     const [uploadLoading, setUploadLoading] = useState(false);
     const [uploadError, setUploadError] = useState("");
+    const [table, setTable] = useState("cocktails");
     const { username } = useParams();
+    const { push } = useHistory();
 
     const getUser = user => {
         return axiosWithAuth().get(`/api/users/${user}`);
@@ -30,6 +32,10 @@ const UserPage = () => {
         .then(res => updateUser(res.data))
         .catch(error => console.log(error))
     }, [username])
+
+    useEffect(() => {
+        console.log(table);
+    }, [table])
 
     const uploadImage = async event => {
         setUploadError("");
@@ -94,19 +100,21 @@ const UserPage = () => {
                             <span> <Moment format="MMMM Do YYYY">{user.date_joined}</Moment> </span>
                             and boasts
                             <span> {user.cocktail_count} </span>
-                            cocktails and
+                            {user.cocktail_count === 1 ? 'cocktails ' : 'cocktail '} 
+                            and
                             <span> {user.ingredient_count} </span>
-                            ingredients.
+                            {user.ingredient_count === 1 ? 'ingredient' : 'ingredients'}.
                         </p>
                         }
                         <Select 
                             options={displayOptions}
                             defaultValue="cocktails"
+                            onChange={(e, d) => setTable(d.value)}
                         />
                     </div>
                     <div className="user-buttons">
                         {user.same_user &&
-                        <Button primary fluid icon>
+                        <Button primary fluid icon onClick={() => push("/new-cocktail")}>
                             Post Cocktail
                             <Icon name="plus"/>
                         </Button>}
@@ -122,7 +130,7 @@ const UserPage = () => {
                         </Button>}
                     </div>
                 </div>
-                <CocktailList username={username}/>
+                <DataList table={table} username={username} sameUser={user.same_user}/>
             </div>
             :
             <div className="page-loading">

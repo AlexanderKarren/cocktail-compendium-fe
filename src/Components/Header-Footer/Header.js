@@ -16,8 +16,8 @@ const Header = ({ user, handleLogOut, loggingIn }) => {
             </div>
             <nav className="header-links">
                 <div onClick={() => push("/cocktails")} className="header-link">Cocktails</div>
-                <div className="header-link">Ingredients</div>
-                <div className="header-link">Drinkware</div>
+                <div onClick={() => push("/ingredients")} className="header-link">Ingredients</div>
+                <div onClick={() => push("/drinkware")} className="header-link">Drinkware</div>
                 {user ?
                 <div onClick={handleLogOut} className="header-link">Sign Out</div>
                 :

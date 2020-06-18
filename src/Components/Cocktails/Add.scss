@@ -1,0 +1,49 @@
+.add {
+    .form-body {
+        border-top:1px solid lightgray;
+        padding: 2rem 0;
+        width:100%;
+        display:flex;
+        justify-content:space-between;
+        .image-upload-container {
+            width:25%;
+        }
+        form {
+            padding:0 0 0 2rem;
+            width:75%;
+            button {
+                margin-bottom:1rem;
+            }
+            textarea {
+                resize: none;
+            }
+            label {
+                font-weight:bold;
+            }
+            .dropdown-container {
+                display:flex;
+                justify-content:space-between;
+                height:2.6rem;
+                margin:.75rem 0;
+                .amount {
+                    width:15%;
+                    height:100%;
+                }
+                .dropdown {
+                    width:75%;
+                    height:100%;
+                }
+                .drop-button {
+                    width:8%;
+                    height:100%;
+                }
+            }
+            .add-ingredient-btn {
+                margin-bottom:.75rem;
+            }
+        }
+    }
+    // * {
+    //     border:1px solid gray;
+    // }
+}

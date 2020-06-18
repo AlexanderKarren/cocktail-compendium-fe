@@ -10,10 +10,22 @@ const cocktailOptions = [
     { key: 'users.username', value: 'users.username', text: 'Username' }
 ]
 
-const Search = ({ getData, fetchingData, setQuery, username }) => {
+const ingredientOptions = [
+    { key: 'ingredients.date_posted&dir=desc', value: 'ingredients.date_posted&dir=desc', text: 'Date (newest)' },
+    { key: 'ingredients.date_posted', value: 'ingredients.date_posted', text: 'Date (oldest)' },
+    { key: 'ingredients.name', value: 'ingredients.name', text: 'Name' },
+    { key: 'users.username', value: 'users.username', text: 'Username' }
+]
+
+const Search = ({ getData, fetchingData, setQuery, username, table }) => {
     const [search, updateSearch] = useState("");
     const [sort, updateSort] = useState("");
     const [clearVisible, updateClear] = useState(false);
+
+    const options = {
+        cocktails: cocktailOptions,
+        ingredients: ingredientOptions
+    }
 
     useEffect(() => {
         if (search.length <= 0) {
@@ -28,20 +40,20 @@ const Search = ({ getData, fetchingData, setQuery, username }) => {
 
     const handleSortChange = (e, data) => {
         updateSort(data.value);
-        getData(username, null, data.value)
+        getData(table, username, null, data.value)
     }
 
     const handleSubmit = event => {
         event.preventDefault();
         setQuery(search);
-        getData(username, search, sort);
+        getData(table, username, search, sort);
     }
 
     const clearSearch = () => {
         updateSearch("");
         updateClear(false);
         setQuery("");
-        getData(username, null, sort);
+        getData(table, username, null, sort);
     }
 
     return (
@@ -50,7 +62,7 @@ const Search = ({ getData, fetchingData, setQuery, username }) => {
                 <Select 
                     fluid 
                     placeholder="Sort"
-                    options={cocktailOptions}
+                    options={options[table.toLowerCase()]}
                     onChange={handleSortChange}
                 />
             </div>

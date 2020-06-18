@@ -2,7 +2,7 @@ import {
     FETCHING_USER,
     USER_MATCH,
     USER_FAILURE,
-    RESET_STATE
+    RESET_USER_STATE
 } from '../Actions/userActions'
 
 export const initialState = {
@@ -35,7 +35,7 @@ export const userReducer = (state = initialState, action) => {
                 userMatch: false,
                 userError: action.payload
             }
-        case RESET_STATE:
+        case RESET_USER_STATE:
             return initialState
         default:
             return state;

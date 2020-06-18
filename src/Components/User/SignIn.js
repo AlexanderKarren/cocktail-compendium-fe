@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { userSignIn, resetUserState } from '../../Actions/loginActions'
+import { getCurrentUser } from '../../Actions/userActions'
 import { Link, useHistory } from 'react-router-dom'
 import { Input, Form, Button, Icon } from 'semantic-ui-react'
 import './SignInWindow.scss'
 
 const SignIn = props => {
+    const { getCurrentUser } = props;
     const { push, listen } = useHistory();
     const [hidePass, setHidePass] = useState(true);
     const [values, updateValues] = useState({
@@ -17,6 +19,10 @@ const SignIn = props => {
     useEffect(() => {
         if (props.signInSuccess) push(`/user/${props.username}`);
     }, [props.signInSuccess, props.username, push])
+
+    useEffect(() => {
+        if (props.signInSuccess) getCurrentUser(props.username);
+    }, [props.signInSuccess, props.username, getCurrentUser])
 
     listen(() =>  {
         props.resetUserState();
@@ -89,4 +95,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, { userSignIn, resetUserState })(SignIn);
+export default connect(mapStateToProps, { userSignIn, resetUserState, getCurrentUser })(SignIn);
