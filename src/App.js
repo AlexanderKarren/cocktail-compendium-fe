@@ -37,11 +37,11 @@ const App = ({ getCurrentUser, resetUserState, userMatch, user, loggingIn }) => 
       <Switch>
         <Route path="/sign-in"><SignIn /></Route>
         <Route path="/sign-up"><SignUp /></Route>
+        <Route path="/cocktails/new"><AddCocktail /></Route>
         <Route path="/cocktails"><DataList table="Cocktails"/></Route>
         <Route path="/ingredients"><DataList table="Ingredients"/></Route>
         <Route path="/drinkware"><DataList table="Drinkware"/></Route>
         <Route path="/user/:username"><UserPage /></Route>
-        <Route path="/new-cocktail"><AddCocktail /></Route>
         <Route path="/"><Landing /></Route>
       </Switch>
     </div>

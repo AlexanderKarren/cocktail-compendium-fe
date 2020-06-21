@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import cocktailPlaceholder from '../../images/placeholders/cocktail.png'
 import ingredientPlaceholder from '../../images/placeholders/ingredient.png'
+import drinkwarePlaceholder from '../../images/placeholders/drinkware.png'
 import { Button, Loader } from 'semantic-ui-react'
 
 const DataListing = props => {
@@ -13,7 +14,8 @@ const DataListing = props => {
 
     const placeholderImage = {
         cocktails: cocktailPlaceholder,
-        ingredients: ingredientPlaceholder
+        ingredients: ingredientPlaceholder,
+        drinkware: drinkwarePlaceholder
     }
 
     const handleDelete = async () => {
@@ -24,7 +26,7 @@ const DataListing = props => {
     return (
         <div className="CocktailListing listing">
             {!verifyDelete && <div className="listing-image">
-                <img src={cocktail.img_url ? cocktail.img_url : placeholderImage[table.toLowerCase()]} alt={table} />
+                <img src={cocktail.image_url ? cocktail.image_url : placeholderImage[table.toLowerCase()]} alt={table} />
             </div>}
             <div className={verifyDelete ? "listing-info delete-mode" : "listing-info"}>
                 {!verifyDelete && <div className="listing-header">

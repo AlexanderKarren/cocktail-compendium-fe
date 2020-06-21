@@ -14,13 +14,16 @@
                 justify-content:space-between;
                 position:relative;
                 width:22%;
-                img {
+                .user-picture-container {
+                    width:80%;
+                    height:auto;
+                    display:flex;
+                    align-items:center;
                     border-radius:10px;
-                    width: 80%;
-                }
-                .uploading {
-                    position:absolute;
-                    top:40%;
+                    img {
+                        border-radius:inherit;
+                        width: 100%;
+                    }
                 }
                 .upload-error {
                     height:1.5rem;
@@ -49,13 +52,12 @@
                 flex-direction:column;
                 justify-content:space-between;
                 width:22%;
-                padding: 1.5rem 0;
+                padding: 1rem 0;
                 button {
                     display:flex;
                     justify-content:space-between;
                     i {
                         font-size:1.2rem;
-                        color:white;
                     }
                 }
             }

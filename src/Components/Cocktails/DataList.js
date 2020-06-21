@@ -24,8 +24,8 @@ const DataList = props => {
             :
             (props.fetchingData ? 
             [...Array(5)].map((e, i) => <PlaceholderListing key={i}>♦</PlaceholderListing>)
-            : props.data.map(cocktail => {
-                return <DataListing key={cocktail.id} cocktail={cocktail} sameUser={props.sameUser} table={table}/>
+            : props.data.map(element => {
+                return <DataListing key={element.id} cocktail={element} sameUser={props.sameUser} table={table}/>
             }))
             }
         </div>

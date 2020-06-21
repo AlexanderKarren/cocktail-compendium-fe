@@ -5,7 +5,7 @@ import axiosWithAuth from '../../utils/axiosWithAuth'
 import { connect } from 'react-redux'
 import { useParams, useHistory } from 'react-router-dom'
 import DataList from '../Cocktails/DataList'
-import { Select, Loader, Icon, Button } from 'semantic-ui-react'
+import { Select, Loader, Icon, Button, Dimmer } from 'semantic-ui-react'
 import aviPlaceholder from '../../images/placeholders/user.png'
 import './UserPage.scss'
 
@@ -17,7 +17,7 @@ const displayOptions = [
 const UserPage = () => {
     const uploadInput = useRef(null);
     const [user, updateUser] = useState(null);
-    const [uploadLoading, setUploadLoading] = useState(false);
+    const [uploading, setUploading] = useState(false);
     const [uploadError, setUploadError] = useState("");
     const [table, setTable] = useState("cocktails");
     const { username } = useParams();
@@ -39,7 +39,7 @@ const UserPage = () => {
 
     const uploadImage = async event => {
         setUploadError("");
-        setUploadLoading(true);
+        setUploading(true);
         const data = new FormData();
         data.append('file', event.target.files[0]);
         data.append('upload_preset', 'avatar');
@@ -52,20 +52,26 @@ const UserPage = () => {
             })
             .then(res => {
                 setUploadError("")
-                setUploadLoading(false);
+                setUploading(false);
                 getUser(user.username)
                 .then(res => updateUser(res.data))
                 .catch(error => console.log(error))
             })
             .catch(() => {
                 setUploadError("Failed to update user")
-                setUploadLoading(false);
+                setUploading(false);
+                setTimeout(() => {
+                    setUploadError("");
+                }, [2000])
             })
         })
         .catch(error => {
             console.log(error);
             setUploadError("Failed to upload")
-            setUploadLoading(false);
+            setUploading(false);
+            setTimeout(() => {
+                setUploadError("");
+            }, [2000])
         })
     }
 
@@ -75,8 +81,11 @@ const UserPage = () => {
             <div className="user-page-container page">
                 <div className="user-header">
                     <div className="user-picture">
-                        {uploadLoading && <Loader active className="uploading"/>}
-                        <img src={user.profile_img_url ? user.profile_img_url : aviPlaceholder} alt={user.username} />
+                        <Dimmer.Dimmable as="div" dimmed={uploading} className="user-picture-container">
+                            <img src={user.profile_img_url ? user.profile_img_url : aviPlaceholder} alt={user.username} />
+                            <Dimmer active={uploading} />
+                            <Loader active={uploading} />
+                        </Dimmer.Dimmable>
                         {user.same_user && <div 
                             className="link-button"
                             onClick={() => uploadInput.current.click()}>
@@ -100,10 +109,10 @@ const UserPage = () => {
                             <span> <Moment format="MMMM Do YYYY">{user.date_joined}</Moment> </span>
                             and boasts
                             <span> {user.cocktail_count} </span>
-                            {user.cocktail_count === 1 ? 'cocktails ' : 'cocktail '} 
+                            {parseInt(user.cocktail_count) === 1 ? 'cocktail ' : 'cocktails '} 
                             and
                             <span> {user.ingredient_count} </span>
-                            {user.ingredient_count === 1 ? 'ingredient' : 'ingredients'}.
+                            {parseInt(user.ingredient_count) === 1 ? 'ingredient' : 'ingredients'}.
                         </p>
                         }
                         <Select 
@@ -114,7 +123,7 @@ const UserPage = () => {
                     </div>
                     <div className="user-buttons">
                         {user.same_user &&
-                        <Button primary fluid icon onClick={() => push("/new-cocktail")}>
+                        <Button primary fluid icon onClick={() => push("/cocktails/new")}>
                             Post Cocktail
                             <Icon name="plus"/>
                         </Button>}
@@ -125,24 +134,29 @@ const UserPage = () => {
                         </Button>}
                         {user.same_user &&
                         <Button primary fluid icon>
+                            Post Drinkware
+                            <Icon name="plus"/>
+                        </Button>}
+                        {user.same_user &&
+                        <Button fluid icon>
                             Account Settings
                             <Icon name="setting"/>
                         </Button>}
                     </div>
                 </div>
                 <DataList table={table} username={username} sameUser={user.same_user}/>
+                {user.same_user && <input
+                    ref={uploadInput}
+                    type="file"
+                    hidden
+                    onChange={uploadImage}
+                />}
             </div>
             :
             <div className="page-loading">
                 <Loader active />
             </div>
             }
-            <input
-                ref={uploadInput}
-                type="file"
-                hidden
-                onChange={uploadImage}
-            />
         </div>
     )
 }

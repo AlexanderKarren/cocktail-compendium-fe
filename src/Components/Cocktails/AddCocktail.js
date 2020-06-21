@@ -1,21 +1,25 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import axios from 'axios'
 import axiosWithAuth from '../../utils/axiosWithAuth'
 import { useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Form, Button, Icon } from 'semantic-ui-react'
+import { Form, Button, Icon, Dimmer, Loader } from 'semantic-ui-react'
 import cocktailPlaceholder from '../../images/placeholders/cocktail.png'
 import ingredientPlaceholder from '../../images/placeholders/ingredient.png'
+import drinkwarePlaceholder from '../../images/placeholders/drinkware.png'
 import './Add.scss'
 
 const AddCocktail = ({ user }) => {
+    const uploadInput = useRef(null);
     const [posting, setPosting] = useState(false);
+    const [uploadingImage, setUploading] = useState(false);
+    const [uploadError, setUploadError] = useState("");
     const [values, updateValues] = useState({
         name: "",
         description: "",
         preparation: "",
         location_origin: "",
-        img_url: "",
+        image_url: "",
         drinkware: ""
     })
     const [ingredientOptions, updateIngredientOptions] = useState(null);
@@ -109,7 +113,7 @@ const AddCocktail = ({ user }) => {
                     text: element.name,
                     value: element.id,
                     image: {
-                        src: (element.image_url ? element.image_url : cocktailPlaceholder)
+                        src: (element.image_url ? element.image_url : drinkwarePlaceholder)
                     }
                 })
             })
@@ -119,6 +123,30 @@ const AddCocktail = ({ user }) => {
             console.log(error);
         })
     }, [])
+
+    const uploadImage = async event => {
+        setUploadError("");
+        setUploading(true);
+        const data = new FormData();
+        data.append('file', event.target.files[0]);
+        data.append('upload_preset', 'cocktails');
+
+        await axios.post('https://api.cloudinary.com/v1_1/the-cocktail-compendium/image/upload', data)
+        .then(res => {
+            console.log(res);
+            setUploading(false);
+            updateValues({
+                ...values,
+                image_url: res.data.secure_url
+            })
+            setUploadError("");
+        })
+        .catch(error => {
+            console.log(error);
+            setUploadError("Failed to upload")
+            setUploading(false);
+        })
+    }
 
     const handleSubmit = async event => {
         event.preventDefault();
@@ -150,10 +178,13 @@ const AddCocktail = ({ user }) => {
             <h2 className="first">New Cocktail</h2>
             <div className="form-body">
                 <div className="image-upload-container">
-                    <div className="image-upload">
-                        <img src={cocktailPlaceholder} alt="user upload" />
-                    </div>
-                    <Button primary fluid>Upload Image</Button>
+                    <Dimmer.Dimmable as="div" dimmed={uploadingImage} className="image-upload">
+                        <img src={values.image_url ? values.image_url : cocktailPlaceholder} alt="user upload" />
+                        <Dimmer active={uploadingImage} />
+                        <Loader active={uploadingImage} />
+                    </Dimmer.Dimmable>
+                    <Button primary fluid onClick={() => uploadInput.current.click()}>Upload Image</Button>
+                    <div>{uploadError}</div>
                 </div>
                 <Form onSubmit={handleSubmit}>
                     <Form.Input 
@@ -255,6 +286,7 @@ const AddCocktail = ({ user }) => {
                     <Form.Input 
                         label="Location Origin"
                         name="location_origin"
+                        placeholder="City, State / Province, Country"
                         onChange={handleChange}
                     />
                     {posting ?
@@ -270,6 +302,12 @@ const AddCocktail = ({ user }) => {
                         Cancel
                     </Button>
                 </Form>
+                <input
+                    ref={uploadInput}
+                    type="file"
+                    hidden
+                    onChange={uploadImage}
+                />
             </div>
         </div>
     )
