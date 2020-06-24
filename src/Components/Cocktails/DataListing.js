@@ -14,6 +14,7 @@ const DataListing = props => {
 
     const placeholderImage = {
         cocktails: cocktailPlaceholder,
+        cocktailsliked: cocktailPlaceholder,
         ingredients: ingredientPlaceholder,
         drinkware: drinkwarePlaceholder
     }
@@ -26,11 +27,11 @@ const DataListing = props => {
     return (
         <div className="CocktailListing listing">
             {!verifyDelete && <div className="listing-image">
-                <img src={cocktail.image_url ? cocktail.image_url : placeholderImage[table.toLowerCase()]} alt={table} />
+                <img src={cocktail.image_url ? cocktail.image_url : placeholderImage[table.toLowerCase().replace("/", "")]} alt={table} />
             </div>}
             <div className={verifyDelete ? "listing-info delete-mode" : "listing-info"}>
                 {!verifyDelete && <div className="listing-header">
-                    <Link to="">{cocktail.name}</Link>
+                    <Link to={`/${table.toLowerCase()}/id/${cocktail.id}`}>{cocktail.name}</Link>
                     {sameUser ?
                     (!verifyDelete && <div className="link-button danger" onClick={() => setVerifyDelete(true)}>Delete</div>)
                     :
@@ -54,7 +55,7 @@ const DataListing = props => {
                 <div className="listing-description">{cocktail.description}</div>
                 }
                 {!verifyDelete && <div className="listing-date">
-                    <div>{cocktail.location_origin ? cocktail.location_origin : " "}</div>
+                    <div>{cocktail.location_origin || cocktail.type || " "}</div>
                     {!cocktail.approved && <div>Pending Approval</div>}
                     <Moment format="MM/DD/YY">{cocktail.date_posted}</Moment>
                 </div>}

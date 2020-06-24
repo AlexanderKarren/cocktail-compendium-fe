@@ -3,7 +3,7 @@ import axios from 'axios'
 import axiosWithAuth from '../../utils/axiosWithAuth'
 import { useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Form, Button, Icon, Dimmer, Loader } from 'semantic-ui-react'
+import { Form, Button, Icon, Dimmer, Loader, Checkbox } from 'semantic-ui-react'
 import cocktailPlaceholder from '../../images/placeholders/cocktail.png'
 import ingredientPlaceholder from '../../images/placeholders/ingredient.png'
 import drinkwarePlaceholder from '../../images/placeholders/drinkware.png'
@@ -19,9 +19,11 @@ const AddCocktail = ({ user }) => {
         description: "",
         preparation: "",
         location_origin: "",
+        tags: "",
         image_url: "",
         drinkware: ""
     })
+    const [imageLink, setImageLink] = useState(false);
     const [ingredientOptions, updateIngredientOptions] = useState(null);
     const [ingredients, updateIngredients] = useState([{
         amount: "",
@@ -150,17 +152,14 @@ const AddCocktail = ({ user }) => {
 
     const handleSubmit = async event => {
         event.preventDefault();
-        console.log({
-            ...values,
-            drinkware: [values.drinkware],
-            ingredients: ingredients.map(ingredient => `${ingredient.amount}+${ingredient.id}`)
-        })
         setPosting(true);
         await axiosWithAuth().post('/api/cocktails', {
             ...values,
-            location_origin: values.location_origin.length > 0 ? values.location_origin : null,
+            location_origin: values.location_origin.length ? values.location_origin : null,
+            tags: values.tags ? values.tags : null,
             drinkware: [values.drinkware],
-            ingredients: ingredients.map(ingredient => `${ingredient.amount}+${ingredient.id}`)
+            ingredients: ingredients.map(ingredient => `${ingredient.amount}+${ingredient.id}`),
+            image_url: values.image_url ? values.image_url : null
         })
         .then(res => {
             setPosting(false);
@@ -179,11 +178,12 @@ const AddCocktail = ({ user }) => {
             <div className="form-body">
                 <div className="image-upload-container">
                     <Dimmer.Dimmable as="div" dimmed={uploadingImage} className="image-upload">
-                        <img src={values.image_url ? values.image_url : cocktailPlaceholder} alt="user upload" />
+                        <img src={values.image_url ? values.image_url : cocktailPlaceholder} alt="cocktail" />
                         <Dimmer active={uploadingImage} />
                         <Loader active={uploadingImage} />
                     </Dimmer.Dimmable>
-                    <Button primary fluid onClick={() => uploadInput.current.click()}>Upload Image</Button>
+                    <Button primary fluid disabled={imageLink} onClick={() => uploadInput.current.click()}>Upload Image</Button>
+                    <Checkbox label="Use off-site image URL" value={imageLink} onChange={() => setImageLink(!imageLink)}/>
                     <div>{uploadError}</div>
                 </div>
                 <Form onSubmit={handleSubmit}>
@@ -193,6 +193,13 @@ const AddCocktail = ({ user }) => {
                         onChange={handleChange}
                         required
                     />
+                    {imageLink && <Form.Input 
+                        label="Image URL"
+                        name="image_url"
+                        onChange={handleChange}
+                        value={values.image_url}
+                        required
+                    />}
                     <Form.TextArea 
                         label="Description" 
                         rows="6"
@@ -202,7 +209,7 @@ const AddCocktail = ({ user }) => {
                     />
                     <label>Ingredients</label>
                     {
-                    [ingredients.map((e, index) => 
+                    [ingredients.map((el, index) => 
                         (
                         <div className="dropdown-container">
                             <Form.Input 
@@ -287,6 +294,12 @@ const AddCocktail = ({ user }) => {
                         label="Location Origin"
                         name="location_origin"
                         placeholder="City, State / Province, Country"
+                        onChange={handleChange}
+                    />
+                    <Form.Input 
+                        label="Search Tags"
+                        name="tags"
+                        placeholder="Separate tags with commas"
                         onChange={handleChange}
                     />
                     {posting ?

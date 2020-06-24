@@ -19,6 +19,7 @@ export const getData = (table, username, search, sort) => async dispatch => {
 
     await axios.get(`https://the-cocktail-compendium.herokuapp.com/api/${table}/${username ? username : ""}?${search ? `search=${search}&` : ""}${sort ? `sort=${sort}` : ""}`)
     .then(res => {
+        console.log(res.data);
         dispatch({
             type: FETCH_SUCCESS,
             payload: res.data

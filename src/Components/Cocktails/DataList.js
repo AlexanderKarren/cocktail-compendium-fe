@@ -1,13 +1,16 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react' 
+import { useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { getData } from '../../Actions/dataActions'
 import PlaceholderListing from '../PlaceholderListing'
 import DataListing from './DataListing'
+import { Button, Icon } from 'semantic-ui-react'
 import Search from '../Search'
 
 const DataList = props => {
     const [query, setQuery] = useState("");
-    const { getData, username, table } = props;
+    const { getData, username, user, table } = props;
+    const { push } = useHistory();
 
     useEffect(() => {
         getData(table, username);
@@ -15,8 +18,22 @@ const DataList = props => {
 
     return (
         <div className="DataList page list">
-            {!username && <h2 className="first">{table}</h2>}
-            <Search getData={getData} fetchData={props.fetchingData} setQuery={setQuery} username={username} table={table}/>
+            {!username &&
+            <div className="heading">
+                    <div />
+                    <h2 className="first">{table}</h2>
+                    {user ? <Button 
+                        primary 
+                        icon 
+                        labelPosition='right'
+                        onClick={() => push(`/${table.toLowerCase()}/new`)}
+                    >
+                        {`Post ${table.replace("s", "")}`}
+                        <Icon name="plus" />
+                    </Button>
+                    : <div />}
+                </div>}
+            <Search loading={props.fetchingData} getData={getData} fetchData={props.fetchingData} setQuery={setQuery} username={username} table={table}/>
             <div className={query.length > 0 ? "search-result-message" : "search-result-message hidden"}>
                 {query.length > 0 && `Showing results for "${query}"`}
             </div>
@@ -36,7 +53,8 @@ const mapStateToProps = state => {
     return {
         data: state.dataReducer.data,
         fetchingData: state.dataReducer.fetchingData,
-        error: state.dataReducer.fetchError
+        error: state.dataReducer.fetchError,
+        user: state.userReducer.user
     }
 }
 

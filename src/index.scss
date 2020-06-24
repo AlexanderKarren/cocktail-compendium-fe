@@ -84,6 +84,9 @@ h2 {
   &.first {
     margin-top:100px;
   }
+  &.small {
+    font-size:2.5rem;
+  }
 }
 
 img {
@@ -117,6 +120,20 @@ img {
     transition:.5s;
     &.hidden {
       height:0;
+    }
+  }
+  .heading {
+    width:100%;
+    display:flex;
+    justify-content:space-between;
+    align-items: flex-end;
+    padding-bottom:1.5rem;
+    *:first-child, *:last-child {
+      width:25%;
+    }
+    h2 {
+      width:50%;
+      margin-bottom:0;
     }
   }
 }

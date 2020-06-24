@@ -7,17 +7,20 @@ import { useParams, useHistory } from 'react-router-dom'
 import DataList from '../Cocktails/DataList'
 import { Select, Loader, Icon, Button, Dimmer } from 'semantic-ui-react'
 import aviPlaceholder from '../../images/placeholders/user.png'
+import ErrorPage from '../ErrorPage'
 import './UserPage.scss'
 
 const displayOptions = [
     {key: 'cocktails', value: 'cocktails', text: 'Cocktails'},
-    {key: 'ingredients', value: 'ingredients', text: 'Ingredients'}
+    {key: 'ingredients', value: 'ingredients', text: 'Ingredients'},
+    {key: 'cocktails/liked', value: 'cocktails/liked', text: 'Liked'}
 ]
 
 const UserPage = () => {
     const uploadInput = useRef(null);
     const [user, updateUser] = useState(null);
     const [uploading, setUploading] = useState(false);
+    const [userError, setUserError] = useState("");
     const [uploadError, setUploadError] = useState("");
     const [table, setTable] = useState("cocktails");
     const { username } = useParams();
@@ -30,7 +33,7 @@ const UserPage = () => {
     useEffect(() => {
         getUser(username)
         .then(res => updateUser(res.data))
-        .catch(error => console.log(error))
+        .catch(error => setUserError(error.response.data.error))
     }, [username])
 
     useEffect(() => {
@@ -94,7 +97,7 @@ const UserPage = () => {
                         <div className="upload-error">{uploadError}</div>
                     </div>
                     <div className="user-name">
-                        <h2>{user.username}</h2>
+                        <h2>{user.admin && <Icon name="id badge" />}{user.username}</h2>
                         {(user.cocktail_count <= 0 && user.ingredient_count <= 0) ?
                         <p>
                             <span>{user.username} </span>
@@ -123,22 +126,22 @@ const UserPage = () => {
                     </div>
                     <div className="user-buttons">
                         {user.same_user &&
-                        <Button primary fluid icon onClick={() => push("/cocktails/new")}>
+                        <Button primary fluid icon labelPosition="right" onClick={() => push("/cocktails/new")}>
                             Post Cocktail
                             <Icon name="plus"/>
                         </Button>}
                         {user.same_user &&
-                        <Button primary fluid icon>
+                        <Button primary fluid icon labelPosition="right" onClick={() => push("/ingredients/new")}>
                             Post Ingredient
                             <Icon name="plus"/>
                         </Button>}
-                        {user.same_user &&
+                        {/* {user.same_user &&
                         <Button primary fluid icon>
                             Post Drinkware
                             <Icon name="plus"/>
-                        </Button>}
+                        </Button>} */}
                         {user.same_user &&
-                        <Button fluid icon>
+                        <Button fluid icon labelPosition="right">
                             Account Settings
                             <Icon name="setting"/>
                         </Button>}
@@ -152,6 +155,8 @@ const UserPage = () => {
                     onChange={uploadImage}
                 />}
             </div>
+            :
+            userError ? <ErrorPage error={userError} />
             :
             <div className="page-loading">
                 <Loader active />
