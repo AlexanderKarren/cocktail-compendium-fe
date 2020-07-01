@@ -24,6 +24,7 @@ const AddCocktail = ({ user }) => {
         drinkware: ""
     })
     const [imageLink, setImageLink] = useState(false);
+    const [imageLinkError, setImageLinkError] = useState(null);
     const [ingredientOptions, updateIngredientOptions] = useState(null);
     const [ingredients, updateIngredients] = useState([{
         amount: "",
@@ -33,6 +34,7 @@ const AddCocktail = ({ user }) => {
     const { push, goBack } = useHistory();
 
     const handleChange = event => {
+        if (event.target.name === "image_url") setImageLinkError(null);
         updateValues({
             ...values,
             [event.target.name]: event.target.value
@@ -172,13 +174,18 @@ const AddCocktail = ({ user }) => {
         })
     }
 
+    const handleImageError = event => {
+        setImageLinkError("Invalid URL")
+        event.target.src = cocktailPlaceholder;
+    }
+
     return (
         <div className="page add">
             <h2 className="first">New Cocktail</h2>
             <div className="form-body">
                 <div className="image-upload-container">
                     <Dimmer.Dimmable as="div" dimmed={uploadingImage} className="image-upload">
-                        <img src={values.image_url ? values.image_url : cocktailPlaceholder} alt="cocktail" />
+                        <img src={values.image_url ? values.image_url : cocktailPlaceholder} onError={handleImageError} alt="cocktail" />
                         <Dimmer active={uploadingImage} />
                         <Loader active={uploadingImage} />
                     </Dimmer.Dimmable>
@@ -199,6 +206,7 @@ const AddCocktail = ({ user }) => {
                         onChange={handleChange}
                         value={values.image_url}
                         required
+                        error={imageLinkError}
                     />}
                     <Form.TextArea 
                         label="Description" 

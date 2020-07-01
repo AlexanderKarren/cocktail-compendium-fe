@@ -141,7 +141,7 @@ const UserPage = () => {
                             <Icon name="plus"/>
                         </Button>} */}
                         {user.same_user &&
-                        <Button fluid icon labelPosition="right">
+                        <Button fluid icon labelPosition="right" onClick={() => push("/user/settings")}>
                             Account Settings
                             <Icon name="setting"/>
                         </Button>}

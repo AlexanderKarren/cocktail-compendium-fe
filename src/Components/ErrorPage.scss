@@ -1,14 +1,13 @@
 .user-error {
-    height:100vh;
     display:flex;
-    padding:6rem 0;
     flex-direction:column;
     justify-content:space-between;
     align-items:center;
-    div:first-child {
+    .error-image {
         width:40rem;
     }
     .error-message {
         font-weight:bold;
+        margin:1rem 0;
     }
 }

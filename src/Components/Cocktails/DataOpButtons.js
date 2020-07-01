@@ -5,12 +5,12 @@ import { connect } from 'react-redux'
 import { Message, Button, Icon } from 'semantic-ui-react'
 import './DataOpButtons.scss'
 
-const DataOpButtons = ({ table, data, deletingData }) => {
+const DataOpButtons = ({ table, data, deletingData, deleteCocktail }) => {
     const [confirmDelete, setConfirmDelete] = useState(false);
     const { goBack } = useHistory();
 
     const handleDelete = async () => {
-        await deleteCocktail("cocktails", data.id);
+        await deleteCocktail(table, data.id);
         goBack();
     }
 

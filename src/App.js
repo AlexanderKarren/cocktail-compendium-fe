@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { getCurrentUser, resetUserState } from './Actions/userActions'
 import { connect } from 'react-redux'
-import { Switch, Route, useHistory } from 'react-router-dom'
+import { Switch, Route, useHistory, Redirect } from 'react-router-dom'
 import Header from './Components/Header-Footer/Header'
 import SignIn from './Components/User/SignIn'
 import SignUp from './Components/User/SignUp'
@@ -13,6 +13,8 @@ import AddIngredient from './Components/Cocktails/AddIngredient'
 import DetailedCocktail from './Components/Cocktails/DetailedCocktail'
 import DetailedIngredient from './Components/Cocktails/DetailedIngredient'
 import DetailedType from './Components/Cocktails/DetailedType'
+import MissingPage from './Components/MissingPage'
+import UserSettings from './Components/User/UserSettings'
 
 const App = ({ getCurrentUser, resetUserState, userMatch, user, loggingIn }) => {
   const { push } = useHistory();
@@ -41,6 +43,7 @@ const App = ({ getCurrentUser, resetUserState, userMatch, user, loggingIn }) => 
       <Switch>
         <Route path="/sign-in"><SignIn /></Route>
         <Route path="/sign-up"><SignUp /></Route>
+        <Redirect from="/cocktails/liked/id/:id" to="/cocktails/id/:id" />
         <Route path="/cocktails/id/:id"><DetailedCocktail /></Route>
         <Route path="/cocktails/new"><AddCocktail /></Route>
         <Route path="/cocktails"><DataList table="Cocktails"/></Route>
@@ -49,8 +52,10 @@ const App = ({ getCurrentUser, resetUserState, userMatch, user, loggingIn }) => 
         <Route path="/ingredients"><DataList table="Ingredients"/></Route>
         <Route path="/types/id/:id"><DetailedType /></Route>
         <Route path="/drinkware"><DataList table="Drinkware"/></Route>
+        <Route path="/user/settings"><UserSettings /></Route>
         <Route path="/user/:username"><UserPage /></Route>
         <Route exact path="/"><Landing /></Route>
+        <Route path="*"><MissingPage /></Route>
       </Switch>
     </div>
   )

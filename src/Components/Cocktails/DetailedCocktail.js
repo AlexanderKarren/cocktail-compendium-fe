@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { connect } from 'react-redux'
 import { Link, useParams, useHistory } from 'react-router-dom'
 import axiosWithAuth from '../../utils/axiosWithAuth'
 import Moment from 'react-moment'
@@ -9,10 +10,11 @@ import DataOpButtons from './DataOpButtons'
 import ErrorPage from '../ErrorPage'
 import './DetailedListing.scss'
 
-const DetailedCocktail = () => {
+const DetailedCocktail = ({ user }) => {
     const [cocktail, updateCocktail] = useState(null);
     const [cocktailError, updateCocktailError] = useState("");
     const [rating, updateRating] = useState(null);
+    const [ratingCount, updateRatingCount] = useState(null);
     const [loadingRating, setLoadingRating] = useState({
         thumbsDown: false,
         thumbsUp: false
@@ -42,6 +44,17 @@ const DetailedCocktail = () => {
         })
     }, [cocktail, id])
 
+    // get rating count
+    useEffect(() => {
+        if (cocktail) axiosWithAuth().get(`/api/cocktails/rating-count/id/${id}`)
+        .then(res => {
+            updateRatingCount(res.data);
+        })
+        .catch(error => {
+            console.log(error);
+        })
+    }, [cocktail, id, rating])
+
     const handleRating = async (liked, button) => {
         setLoadingRating({
             ...loadingRating,
@@ -59,7 +72,7 @@ const DetailedCocktail = () => {
             });
         })
         .catch(error => {
-            console.log(error);
+            console.log(error.response.data.error);
             setLoadingRating({
                 thumbsDown: false,
                 thumbsUp: false
@@ -79,7 +92,7 @@ const DetailedCocktail = () => {
             });
         })
         .catch(error => {
-            console.log(error);
+            console.log(error.response.data.error);
             setLoadingRating({
                 thumbsDown: false,
                 thumbsUp: false
@@ -100,7 +113,7 @@ const DetailedCocktail = () => {
             });
         })
         .catch(error => {
-            console.log(error);
+            console.log(error.response.data.error);
             setLoadingRating({
                 thumbsDown: false,
                 thumbsUp: false
@@ -130,7 +143,7 @@ const DetailedCocktail = () => {
                     <div className="nested-panel">
                         <div className="listing-image">
                             <img src={cocktail.image_url || cocktailPlaceholder} alt={cocktail.name} />
-                            <div className="rating-buttons">
+                            {user && <div className="rating-buttons">
                                 {rating && <div className={(rating.rated && !rating.liked) ? "rating-button thumbs-down selected" : "rating-button thumbs-down"} onClick={() => handleRating(false, "thumbsDown")}>
                                     {loadingRating.thumbsDown ?
                                     <Loader active inline />
@@ -148,7 +161,7 @@ const DetailedCocktail = () => {
                                 }
                                 </div>}
                                 <Loader active={!rating} inline />
-                            </div>
+                            </div>}
                         </div>
                     </div>
                     <div className="nested-panel">
@@ -162,6 +175,22 @@ const DetailedCocktail = () => {
                                 <Moment format="MM/DD/YY HH:mm">{cocktail.date_posted}</Moment>
                             </div>
                         </div>
+                        {ratingCount ?
+                        <div className="rating">
+                            <div className="dislikes">
+                                <Icon name="thumbs down" />
+                                {ratingCount.dislikes}
+                            </div>
+                            <div className="likes">
+                                <Icon name="thumbs up" />
+                                {ratingCount.likes}
+                            </div>
+                            <div className="percentage">
+                                {(parseInt(ratingCount.likes) / (parseInt(ratingCount.likes) + parseInt(ratingCount.dislikes)) * 100)}%
+                            </div>
+                        </div>
+                        :
+                        <div className="rating"><Loader size="mini" active inline /></div>}
                         <div className="label">Description</div>
                         <p>{cocktail.description}</p>
                         {cocktail.location_origin && <div className="label">Location Origin</div>}
@@ -208,4 +237,10 @@ const DetailedCocktail = () => {
     )
 }
 
-export default DetailedCocktail
+const mapStateToProps = state => {
+    return {
+        user: state.userReducer.user
+    }
+}
+
+export default connect(mapStateToProps, null)(DetailedCocktail)

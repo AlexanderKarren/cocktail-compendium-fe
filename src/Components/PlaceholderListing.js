@@ -4,9 +4,11 @@ import { Placeholder } from 'semantic-ui-react'
 const PlaceholderListing = () => {
     return (
         <div className="listing">
-            <Placeholder className="listing-image">
-                <Placeholder.Image square />
-            </Placeholder>
+            <div className="placeholder-listing-image">
+                <Placeholder>
+                    <Placeholder.Image square />
+                </Placeholder>
+            </div>
             <div className="listing-info">
                 <Placeholder>
                     <Placeholder.Line />

@@ -14,15 +14,19 @@ export const getCurrentUser = username => async dispatch => {
 
     await axiosWithAuth().get(`/api/users/${username}`)
     .then(res => {
-        dispatch({
+        if (res.data.same_user) dispatch({
             type: USER_MATCH,
             payload: res.data
+        })
+        else dispatch({
+            type: USER_FAILURE,
+            payload: "Token expired – try logging in again"
         })
     })
     .catch(error => {
         dispatch({
             type: USER_FAILURE,
-            payload: error.response.data.error
+            payload: error.response ? error.response.data.error : error
         })
     })
 }

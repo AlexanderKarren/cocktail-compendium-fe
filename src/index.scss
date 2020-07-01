@@ -93,6 +93,12 @@ img {
   width:100%;
 }
 
+form {
+  label {
+    font-weight:bold;
+  }
+}
+
 .page {
   width:100%;
   display:flex;
@@ -150,12 +156,17 @@ img {
   padding: 15px 30px;
   display:flex;
   justify-content:space-between;
+  align-items:center;
   width:100%;
   min-height:10rem;
   .listing-image {
     width:12%;
     display:flex;
     align-items:center;
+  }
+  .placeholder-listing-image {
+    width:12%;
+    height:50%;
   }
   .listing-info {
     width:86%;

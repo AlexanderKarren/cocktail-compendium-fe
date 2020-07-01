@@ -6,6 +6,7 @@ import { Input, Form, Button, Icon } from 'semantic-ui-react'
 import './SignInWindow.scss'
 
 const SignIn = props => {
+    const { user } = props;
     const { push } = useHistory();
     const [hidePass, setHidePass] = useState(true);
     const [values, updateValues] = useState({
@@ -17,6 +18,11 @@ const SignIn = props => {
     useEffect(() => {
         if (props.registerSuccess) push("/sign-in");
     }, [props.registerSuccess, push])
+
+    // pushes user away from page if already logged in
+    useEffect(() => {
+        if (user) push(`/user/${user.username}`)
+    }, [user])
 
     const handleChanges = event => {
         updateValues({
@@ -89,7 +95,8 @@ const mapStateToProps = state => {
     return {
         isRegistering: state.loginReducer.isRegistering,
         registerSuccess: state.loginReducer.registerSuccess,
-        registerError: state.loginReducer.registerError
+        registerError: state.loginReducer.registerError,
+        user: state.userReducer.user
     }
 }
 

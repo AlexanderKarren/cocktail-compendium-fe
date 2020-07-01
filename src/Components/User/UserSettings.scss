@@ -1,0 +1,56 @@
+.UserSettings {
+    display:flex;
+    flex-direction:column;
+    .user-settings-container {
+        .user-header {
+            border-top:1px solid lightgray;
+            display:flex;
+            justify-content:space-between;
+            width:100%;
+            padding:2rem 0;
+            .user-picture {
+                display:flex;
+                flex-direction:column;
+                align-items:center;
+                width:25%;
+                .user-picture-container {
+                    width:100%;
+                    img {
+                        border-radius:10px;
+                    }
+                }
+                button {
+                    margin:.5rem 0;
+                }
+            }
+            .settings-form {
+                width:72%;
+                textarea {
+                    resize:none;
+                }
+                button {
+                    margin-bottom:1rem;
+                }
+                .message {
+                    display:flex;
+                    flex-direction:column;
+                    align-items:center;
+                    text-align:center;
+                    .delete-buttons {
+                        display:flex;
+                        justify-content:space-between;
+                        margin-top:1rem;
+                        width:10rem;
+                    }
+                    i {
+                        margin: 1rem 0;
+                        font-size:2.5rem;
+                    }
+                }
+            }
+        }
+    }
+    // * {
+    //     border:1px solid blue;
+    // }
+}
