@@ -1,3 +1,5 @@
+@import "../../utils/variables.scss";
+
 .DetailedListing {
     width:100%;
     .top-panel {
@@ -59,6 +61,7 @@
             width:85%;
             display:flex;
             flex-direction:column;
+            margin-bottom:2rem;
             .ingredient {
                 display:flex;
                 align-items:center;
@@ -116,6 +119,10 @@
         &.centered, &.metadata {
             margin-bottom:1rem;
         }
+        &.alcoholic {
+            color:green;
+            margin-bottom:1rem;
+        }
         .date {
             color:lightgray;
             font-family: 'Lato Light', sans-serif;
@@ -138,6 +145,17 @@
         .percentage {
             color:green;
             font-weight:bold;
+        }
+    }
+    @media #{$phone} {
+        .top-panel {
+            flex-direction:column;
+        }
+        .nested-panel {
+            width:100%;
+            .ingredients-container {
+                width:100%;
+            }
         }
     }
 }

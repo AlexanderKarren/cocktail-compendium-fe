@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import axios from 'axios'
 import axiosWithAuth from '../../utils/axiosWithAuth'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Form, Button, Icon, Dimmer, Loader, Checkbox } from 'semantic-ui-react'
 import cocktailPlaceholder from '../../images/placeholders/cocktail.png'
@@ -9,7 +9,7 @@ import ingredientPlaceholder from '../../images/placeholders/ingredient.png'
 import drinkwarePlaceholder from '../../images/placeholders/drinkware.png'
 import './Add.scss'
 
-const AddCocktail = ({ user }) => {
+const AddCocktail = ({ user, edit }) => {
     const uploadInput = useRef(null);
     const [posting, setPosting] = useState(false);
     const [uploadingImage, setUploading] = useState(false);
@@ -21,23 +21,35 @@ const AddCocktail = ({ user }) => {
         location_origin: "",
         tags: "",
         image_url: "",
-        drinkware: ""
+        drinkware: "",
+        alcoholic: true
     })
     const [imageLink, setImageLink] = useState(false);
     const [imageLinkError, setImageLinkError] = useState(null);
     const [ingredientOptions, updateIngredientOptions] = useState(null);
     const [ingredients, updateIngredients] = useState([{
         amount: "",
-        id: ""
+        id: "",
+        relationship_id: "",
+        original: false,
+        deleting: false
     }]);
     const [drinkwareOptions, updateDrinkwareOptions] = useState(null);
     const { push, goBack } = useHistory();
+    const { id } = useParams();
 
     const handleChange = event => {
         if (event.target.name === "image_url") setImageLinkError(null);
         updateValues({
             ...values,
             [event.target.name]: event.target.value
+        })
+    }
+
+    const handleCheckChange = () => {
+        updateValues({
+            ...values,
+            alcoholic: !values.alcoholic
         })
     }
 
@@ -77,9 +89,37 @@ const AddCocktail = ({ user }) => {
             ...ingredients,
             {
                 amount: "",
+                relationship_id: "",
                 id: ""
             }
         ]);
+    }
+
+    // only used in edit mode
+    const deleteIngredient = async rel_id => {
+        updateIngredients(ingredients.map(ing => {
+            return ing.relationship_id === rel_id ? {
+                ...ing,
+                deleting: true
+            }
+            :
+            ing
+        }))
+        await axiosWithAuth().delete(`/api/cocktail_ingredients/id/${rel_id}`)
+        .then(res => {
+            updateIngredients(ingredients.filter(ing => (ing.relationship_id !== rel_id)))
+        })
+        .catch(error => {
+            console.log(error.response.data.error)
+            updateIngredients(ingredients.map(ing => {
+                return ing.id === rel_id ? {
+                    ...ing,
+                    deleting: false
+                }
+                :
+                ing
+            }))
+        })
     }
 
     // get ingredient options
@@ -155,7 +195,52 @@ const AddCocktail = ({ user }) => {
     const handleSubmit = async event => {
         event.preventDefault();
         setPosting(true);
-        await axiosWithAuth().post('/api/cocktails', {
+        let changes = {...values}
+        delete changes["drinkware"]
+        if (edit) await axiosWithAuth().put(`/api/cocktails/id/${id}`, {
+            ...changes,
+            location_origin: changes.location_origin.length ? changes.location_origin : null,
+            tags: changes.tags ? changes.tags : null,
+            image_url: changes.image_url ? changes.image_url : null
+        })
+        .then(res => {
+            ingredients.forEach((ing, index) => {
+                if (ing.original) axiosWithAuth().put(`/api/cocktail_ingredients/id/${ing.relationship_id}`, {
+                    ingredient_id: ing.id,
+                    amount: ing.amount
+                })
+                .then(res => {
+                    console.log(res)
+                    if (index === ingredients.length - 1) {
+                        setPosting(false);
+                        goBack();
+                    }
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+                else axiosWithAuth().post('/api/cocktail_ingredients', {
+                    cocktail_id: id,
+                    ingredient_id: ing.id,
+                    amount: ing.amount
+                })
+                .then(res => {
+                    console.log(res)
+                    if (index === ingredients.length - 1) {
+                        setPosting(false);
+                        goBack();
+                    }
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+            })
+        })
+        .catch(error => {
+            console.log(error.response.data.error);
+            setPosting(false);
+        })
+        else await axiosWithAuth().post('/api/cocktails', {
             ...values,
             location_origin: values.location_origin.length ? values.location_origin : null,
             tags: values.tags ? values.tags : null,
@@ -174,6 +259,35 @@ const AddCocktail = ({ user }) => {
         })
     }
 
+    // if edit mode, update values with cocktail user is editing
+    useEffect(() => {
+        if (edit) axios.get(`https://the-cocktail-compendium.herokuapp.com/api/cocktails/id/${id}`)
+            .then(res => {
+                console.log(res.data);
+                updateIngredients(res.data.ingredients.map(ingredient => {
+                    return {
+                        amount: ingredient.amount,
+                        id: ingredient.id,
+                        relationship_id: ingredient.relationship_id,
+                        original: true
+                    }
+                }))
+                updateValues({
+                    name: res.data.name,
+                    description: res.data.description,
+                    preparation: res.data.preparation || "",
+                    location_origin: res.data.location_origin || "",
+                    tags: res.data.tags || "",
+                    image_url: res.data.image_url || "",
+                    drinkware: res.data.drinkware[0].id || "",
+                    alcoholic: res.data.alcoholic
+                })
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }, [edit, id])
+
     const handleImageError = event => {
         setImageLinkError("Invalid URL")
         event.target.src = cocktailPlaceholder;
@@ -181,7 +295,7 @@ const AddCocktail = ({ user }) => {
 
     return (
         <div className="page add">
-            <h2 className="first">New Cocktail</h2>
+            <h2 className="first">{edit ? "Edit" : "New"} Cocktail</h2>
             <div className="form-body">
                 <div className="image-upload-container">
                     <Dimmer.Dimmable as="div" dimmed={uploadingImage} className="image-upload">
@@ -198,6 +312,7 @@ const AddCocktail = ({ user }) => {
                         label="Name"
                         name="name"
                         onChange={handleChange}
+                        value={values.name}
                         required
                     />
                     {imageLink && <Form.Input 
@@ -213,6 +328,7 @@ const AddCocktail = ({ user }) => {
                         rows="6"
                         name="description"
                         onChange={handleChange}
+                        value={values.description}
                         required
                     />
                     <label>Ingredients</label>
@@ -238,49 +354,43 @@ const AddCocktail = ({ user }) => {
                                 onChange={(e, d) => handleIngredientChange(e, d, index)}
                                 required
                             />
-                            {(ingredients.length > 1) ?
+                            {el.original ?
+                            <Button 
+                                icon
+                                color="red"
+                                className="drop-button" 
+                                type="button" 
+                                onClick={() => deleteIngredient(el.relationship_id)}
+                                disabled={ingredients.length <= 1 || el.deleting}
+                                loading={el.deleting}
+                            >
+                                <Icon name="minus" />
+                            </Button>
+                            :
                             <Button 
                                 icon 
                                 className="drop-button" 
                                 type="button" 
                                 onClick={() => dropIngredient(index)}
+                                disabled={ingredients.length <= 1}
                             >
-                                <Icon name="minus" />
-                            </Button>
-                            :
-                            <Button icon disabled className="drop-button">
                                 <Icon name="minus" />
                             </Button>
                             }
                         </div>
                     ))]
                     }
-                    {ingredientOptions ?
-                    (ingredients.length <= 7 ?
                     <Button 
                         className="add-ingredient-btn" 
                         primary 
                         fluid 
                         type="button"
                         onClick={newIngredient}
+                        disabled={ingredients.length >= 7}
+                        loading={!ingredientOptions}
                     >
                         <Icon name="plus" />
                     </Button>
-                    :
-                    <Button 
-                        className="add-ingredient-btn" 
-                        primary 
-                        fluid 
-                        disabled
-                    >
-                        <Icon name="plus" />
-                    </Button>
-                    )
-                    :
-                    <Button primary loading disabled fluid>
-                        <Icon name="plus" />
-                    </Button>     
-                    }
                     <Form.Dropdown
                         label="Drinkware"
                         className="dropdown"
@@ -289,6 +399,7 @@ const AddCocktail = ({ user }) => {
                         search
                         options={drinkwareOptions}
                         onChange={handleDrinkwareChange}
+                        value={values.drinkware}
                         required
                     />
                     <Form.TextArea 
@@ -296,6 +407,7 @@ const AddCocktail = ({ user }) => {
                         rows="6"
                         name="preparation"
                         onChange={handleChange}
+                        value={values.preparation}
                         required
                     />
                     <Form.Input 
@@ -303,12 +415,20 @@ const AddCocktail = ({ user }) => {
                         name="location_origin"
                         placeholder="City, State / Province, Country"
                         onChange={handleChange}
+                        value={values.location_origin}
+                    />
+                    <Form.Checkbox
+                        label="Cocktail is non-alcoholic"
+                        name="alcoholic"
+                        onChange={handleCheckChange}
+                        checked={!values.alcoholic}
                     />
                     <Form.Input 
                         label="Search Tags"
                         name="tags"
                         placeholder="Separate tags with commas"
                         onChange={handleChange}
+                        value={values.tags}
                     />
                     {posting ?
                     <Button primary fluid disabled loading>
@@ -316,7 +436,7 @@ const AddCocktail = ({ user }) => {
                     </Button>
                     :
                     <Button primary fluid type="submit">
-                        Submit Cocktail
+                        Submit {edit ? "Changes" : "Cocktail"}
                     </Button>
                     }
                     <Button fluid type="button" onClick={goBack}>

@@ -13,6 +13,7 @@ import AddIngredient from './Components/Cocktails/AddIngredient'
 import DetailedCocktail from './Components/Cocktails/DetailedCocktail'
 import DetailedIngredient from './Components/Cocktails/DetailedIngredient'
 import DetailedType from './Components/Cocktails/DetailedType'
+import DetailedDrinkware from './Components/Cocktails/DetailedDrinkware'
 import MissingPage from './Components/MissingPage'
 import UserSettings from './Components/User/UserSettings'
 
@@ -44,13 +45,16 @@ const App = ({ getCurrentUser, resetUserState, userMatch, user, loggingIn }) => 
         <Route path="/sign-in"><SignIn /></Route>
         <Route path="/sign-up"><SignUp /></Route>
         <Redirect from="/cocktails/liked/id/:id" to="/cocktails/id/:id" />
+        <Route path="/cocktails/id/:id/edit"><AddCocktail edit={true}/></Route>
         <Route path="/cocktails/id/:id"><DetailedCocktail /></Route>
         <Route path="/cocktails/new"><AddCocktail /></Route>
         <Route path="/cocktails"><DataList table="Cocktails"/></Route>
+        <Route path="/ingredients/id/:id/edit"><AddIngredient edit={true}/></Route>
         <Route path="/ingredients/id/:id"><DetailedIngredient /></Route>
         <Route path="/ingredients/new"><AddIngredient /></Route>
         <Route path="/ingredients"><DataList table="Ingredients"/></Route>
         <Route path="/types/id/:id"><DetailedType /></Route>
+        <Route path="/drinkware/id/:id"><DetailedDrinkware /></Route>
         <Route path="/drinkware"><DataList table="Drinkware"/></Route>
         <Route path="/user/settings"><UserSettings /></Route>
         <Route path="/user/:username"><UserPage /></Route>

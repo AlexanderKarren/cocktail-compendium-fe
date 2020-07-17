@@ -7,7 +7,7 @@ import './DataOpButtons.scss'
 
 const DataOpButtons = ({ table, data, deletingData, deleteCocktail }) => {
     const [confirmDelete, setConfirmDelete] = useState(false);
-    const { goBack } = useHistory();
+    const { push, goBack } = useHistory();
 
     const handleDelete = async () => {
         await deleteCocktail(table, data.id);
@@ -35,6 +35,7 @@ const DataOpButtons = ({ table, data, deletingData, deleteCocktail }) => {
                         fluid
                         icon
                         labelPosition="left"
+                        onClick={() => push(`${data.id}/edit`)}
                     >
                         Edit
                         <Icon name="pencil" />

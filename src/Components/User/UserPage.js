@@ -98,6 +98,7 @@ const UserPage = () => {
                     </div>
                     <div className="user-name">
                         <h2>{user.admin && <Icon name="id badge" />}{user.username}</h2>
+                        {user.bio && <p className="bio">{user.bio}</p>}
                         {(user.cocktail_count <= 0 && user.ingredient_count <= 0) ?
                         <p>
                             <span>{user.username} </span>
@@ -166,10 +167,4 @@ const UserPage = () => {
     )
 }
 
-const mapStateToProps = state => {
-    return {
-
-    }
-}
-
-export default connect(mapStateToProps, {})(UserPage)
+export default connect(null, {})(UserPage)

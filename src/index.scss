@@ -1,3 +1,5 @@
+@import "/utils/variables.scss";
+
 @font-face {
   font-family: 'Lato';
   src: local('Lato'), url(./fonts/Lato-Regular.ttf) format('truetype');
@@ -142,6 +144,9 @@ form {
       margin-bottom:0;
     }
   }
+  @media #{$phone} {
+    padding:0 .8rem;
+  }
 }
 
 .page-loading {
@@ -175,6 +180,11 @@ form {
       display:flex;
       justify-content:space-between;
       align-items:center;
+      .listing-user-ops {
+        display:flex;
+        justify-content:space-between;
+        width:7rem;
+      }
     }
     .listing-description {
       margin-top:5px;

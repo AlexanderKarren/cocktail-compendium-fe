@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import axiosWithAuth from '../../utils/axiosWithAuth'
 import { useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
 import aviPlaceholder from '../../images/placeholders/user.png'
@@ -10,6 +11,8 @@ const UserSettings = ({ user }) => {
     const [changesMade, setChangesMade] = useState(false);
     const [uploading, startUploading] = useState(false);
     const [uploadError, setUploadError] = useState(null);
+    const [submitting, startSubmitting] = useState(false);
+    const [submitError, setSubmitError] = useState(false);
     const [deleteMode, setDeleteMode] = useState(false);
     const [imageLink, setImageLink] = useState(false);
     const [imageLinkError, setImageLinkError] = useState(null);
@@ -26,6 +29,23 @@ const UserSettings = ({ user }) => {
     const handleImageError = event => {
         setImageLinkError("Invalid URL")
         event.target.src = aviPlaceholder;
+    }
+
+    const handleSubmit = async event => {
+        event.preventDefault();
+        startSubmitting(true);
+        await axiosWithAuth().put(`/api/users/${user.username}`, {
+            bio: values.bio,
+            image_url: values.image_url
+        })
+        .then(() => {
+            startSubmitting(false);
+            goBack();
+        })
+        .catch(error => {
+            startSubmitting(false);
+            setSubmitError(error.response.data.error);
+        })
     }
 
     useEffect(() => {
@@ -61,25 +81,31 @@ const UserSettings = ({ user }) => {
                         <Checkbox label="Use off-site image URL" value={imageLink} onChange={() => setImageLink(!imageLink)}/>
                         <div className="upload-error">{uploadError}</div>
                     </div>
-                    <Form className="settings-form">
+                    <Form className="settings-form" onSubmit={handleSubmit}>
                         <label>Username</label>
                         <p>{user.username}</p>
-                        <Form.TextArea label="Bio" rows={5} name="bio" value={values.bio} onChange={handleChange}/>
+                        <Form.TextArea label="Bio" rows={3} name="bio" value={values.bio} onChange={handleChange}/>
                         {imageLink && <Form.Input label="Image URL" name="profile_img_url" value={values.profile_img_url} onChange={handleChange}/>}
-                        <Button type="submit" disabled={!changesMade} primary fluid>Save Changes</Button>
-                        <Button fluid onClick={() => goBack()}>Cancel</Button>
-                        {deleteMode ?
-                        <Message negative>
-                            <Icon name="exclamation triangle" />
-                            <Message.Header>Are you sure you want to delete your account? It will erase all of your uploads, and the action cannot be undone.</Message.Header>
-                            <div className="delete-buttons">
-                                <Button color="red">Yes</Button>
-                                <Button onClick={() => setDeleteMode(false)}>No</Button>
-                            </div>
-                        </Message>
-                        :
-                        <Button color="red" fluid onClick={() => setDeleteMode(true)}>Delete Account</Button>
-                        }
+                        <Button type="submit" disabled={!changesMade || submitting} loading={submitting} primary fluid>Save Changes</Button>
+                        <Button type="button" disabled={submitting} fluid onClick={() => goBack()}>Cancel</Button>
+                        <label className="major-actions-label"><Icon name="exclamation triangle" />Big, Scary Stuff</label>
+                        <div className="major-actions">
+                            <Button color="red" fluid>Erase All Data</Button>
+                            <Button color="red" fluid>Erase All Cocktails</Button>
+                            <Button color="red" fluid>Erase All Ingredients</Button>
+                            {deleteMode ?
+                            <Message negative>
+                                <Icon name="exclamation triangle" />
+                                <Message.Header>Are you sure you want to delete your account? It will erase all of your uploads, and the action cannot be undone.</Message.Header>
+                                <div className="delete-buttons">
+                                    <Button color="red" disabled={submitting}>Yes</Button>
+                                    <Button onClick={() => setDeleteMode(false)}>No</Button>
+                                </div>
+                            </Message>
+                            :
+                            <Button color="red" fluid onClick={() => setDeleteMode(true)}>Delete Account</Button>
+                            }
+                        </div>
                     </Form>
                 </div>
             </div>

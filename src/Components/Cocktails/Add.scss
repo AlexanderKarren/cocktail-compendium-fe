@@ -50,6 +50,22 @@
             .add-ingredient-btn {
                 margin-bottom:.75rem;
             }
+            .legal-icons {
+                font-size:1.4rem;
+                height:2rem;
+                margin-bottom:1rem;
+                display:flex;
+                align-items:center;
+                i {
+                    transition:.2s;
+                    display:flex;
+                    align-items:center;
+                    &:hover {
+                        font-size:1.5rem;
+                        cursor:pointer;
+                    }
+                }
+            }
         }
     }
     // * {

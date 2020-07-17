@@ -22,7 +22,7 @@ const SignIn = props => {
     // pushes user away from page if already logged in
     useEffect(() => {
         if (user) push(`/user/${user.username}`)
-    }, [user])
+    }, [user, push])
 
     const handleChanges = event => {
         updateValues({

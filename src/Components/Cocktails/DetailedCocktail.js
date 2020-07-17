@@ -5,6 +5,7 @@ import axiosWithAuth from '../../utils/axiosWithAuth'
 import Moment from 'react-moment'
 import cocktailPlaceholder from '../../images/placeholders/cocktail.png'
 import ingredientPlaceholder from '../../images/placeholders/ingredient.png'
+import drinkwarePlaceholder from '../../images/placeholders/drinkware.png'
 import { Loader, Icon, Button, Message } from 'semantic-ui-react'
 import DataOpButtons from './DataOpButtons'
 import ErrorPage from '../ErrorPage'
@@ -186,11 +187,12 @@ const DetailedCocktail = ({ user }) => {
                                 {ratingCount.likes}
                             </div>
                             <div className="percentage">
-                                {(parseInt(ratingCount.likes) / (parseInt(ratingCount.likes) + parseInt(ratingCount.dislikes)) * 100)}%
+                                {(parseInt(ratingCount.likes) / (parseInt(ratingCount.likes) + parseInt(ratingCount.dislikes)) * 100) || 0}%
                             </div>
                         </div>
                         :
                         <div className="rating"><Loader size="mini" active inline /></div>}
+                        {!cocktail.alcoholic && <div className="label alcoholic">Non-Alcoholic</div>}
                         <div className="label">Description</div>
                         <p>{cocktail.description}</p>
                         {cocktail.location_origin && <div className="label">Location Origin</div>}
@@ -217,6 +219,13 @@ const DetailedCocktail = ({ user }) => {
                                     </div>
                                 </div>
                             ))}
+                        </div>
+                        <div className="label centered">Drinkware</div>
+                        <div className="drinkware">
+                            <div className="drinkware-image">
+                                <img src={cocktail.drinkware[0].image_url || drinkwarePlaceholder} alt={cocktail.drinkware[0].name}/>
+                            </div>
+                            <div className="drinkware-name"><Link to={`/drinkware/id/${cocktail.drinkware[0].id}`}>{cocktail.drinkware[0].name}</Link></div>
                         </div>
                     </div>
                     <div className="nested-panel">

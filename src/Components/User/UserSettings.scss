@@ -24,7 +24,8 @@
                 }
             }
             .settings-form {
-                width:72%;
+                padding:0 0 0 2rem;
+                width:75%;
                 textarea {
                     resize:none;
                 }
@@ -49,6 +50,12 @@
                 }
             }
         }
+    }
+    .major-actions-label {
+        margin-top:6rem;
+    }
+    .major-actions {
+        margin-top:1rem;
     }
     // * {
     //     border:1px solid blue;
