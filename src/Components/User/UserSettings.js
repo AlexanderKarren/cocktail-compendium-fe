@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
+import axios from 'axios'
 import axiosWithAuth from '../../utils/axiosWithAuth'
 import { useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -7,6 +8,7 @@ import { Checkbox, Loader, Button, Icon, Dimmer, Form, Message } from 'semantic-
 import './UserSettings.scss'
 
 const UserSettings = ({ user }) => {
+    const uploadInput = useRef(null);
     const [values, updateValues] = useState({});
     const [changesMade, setChangesMade] = useState(false);
     const [uploading, startUploading] = useState(false);
@@ -48,6 +50,44 @@ const UserSettings = ({ user }) => {
         })
     }
 
+    const uploadImage = async event => {
+        setUploadError("");
+        startUploading(true);
+        const data = new FormData();
+        data.append('file', event.target.files[0]);
+        data.append('upload_preset', 'avatar');
+
+        await axios.post('https://api.cloudinary.com/v1_1/the-cocktail-compendium/image/upload', data)
+        .then(res => {
+            console.log(res);
+            axiosWithAuth().put(`/api/users/${user.username}`, {
+                profile_img_url: res.data.secure_url
+            })
+            .then(res => {
+                setUploadError("")
+                startUploading(false);
+                // getUser(user.username)
+                // .then(res => updateUser(res.data))
+                // .catch(error => console.log(error))
+            })
+            .catch(() => {
+                setUploadError("Failed to update user")
+                startUploading(false);
+                setTimeout(() => {
+                    setUploadError("");
+                }, [2000])
+            })
+        })
+        .catch(error => {
+            console.log(error);
+            setUploadError("Failed to upload")
+            startUploading(false);
+            setTimeout(() => {
+                setUploadError("");
+            }, [2000])
+        })
+    }
+
     useEffect(() => {
         if (user) updateValues(user);
     }, [user])
@@ -77,7 +117,12 @@ const UserSettings = ({ user }) => {
                             <Dimmer active={uploading} />
                             <Loader active={uploading} />
                         </Dimmer.Dimmable>
-                        <Button primary fluid>Upload Image</Button>
+                        <Button 
+                            primary 
+                            fluid 
+                            onClick={() => uploadInput.current.click()}>
+                                Upload Image
+                        </Button>
                         <Checkbox label="Use off-site image URL" value={imageLink} onChange={() => setImageLink(!imageLink)}/>
                         <div className="upload-error">{uploadError}</div>
                     </div>
@@ -113,6 +158,12 @@ const UserSettings = ({ user }) => {
             <div className="page-loading">
                 <Loader active />
             </div>}
+            <input
+                ref={uploadInput}
+                type="file"
+                hidden
+                onChange={uploadImage}
+            />
         </div>
     )
 }

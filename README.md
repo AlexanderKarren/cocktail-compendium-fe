@@ -1,68 +1,50 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# The Cocktail Compendium (Front-End)
 
-## Available Scripts
+Link to deployment: N/A
 
-In the project directory, you can run:
+## Description
 
-### `yarn start`
+The Cocktail Compendium is a community-driven web app that acts as a succinct cocktail recipe book. The app is designed to make not only the recipe submissions as easy as possible, but navigating other users' submissions. No ads or lengthy stories to scroll past to get to the recipes, and of course, the app is free for anyone to use.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Non-admin users will have to submit their cocktails for approval by an admin to be listed on the main page.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+## Features
 
-### `yarn test`
+* Custom cocktails can be submitted to the database
+    - Users can specify a title
+    - Users can specify a description
+    - Users can provide instructions for the preparation of their drink
+    - Users can utilize a vast ingredient database to choose ingredients for their drinks
+    - Users can utilize a drinkware database to choose the appropriate glass for their drinks
+    - Users can specify an origin location for their drink
+    - Users can specify whether their drink is alcoholic or non-alcoholic
+    - Users can upload images to accompany their drinks
+    - Users can specify tags for their drinks to make querying easier for others
+* Custom ingredients can be submitted to the database
+    - Users can specify a title
+    - Users can specify a description
+    - Users can provide instructions for the preparation of their ingredient
+    - Users can specify whether or not their ingredient is a copyrighted brand
+    - Users can specify tags for their ingredients to make querying easier for others
+    - Users can upload images to accompany their ingredients
+* Users can utilize a rating system to leave feedback for recipes
+    - Users can view how popular their uploads are
+    - A percentage of likes / dislikes is displayed on each drink
+* Users are provided a hub for their uploads where they can edit and delete their submissions
+* Users can upload a profile picture for their account
+* Users can add a brief bio to their account
+* User accounts can be accessed to see all of their cocktail / ingredient uploads, and cocktails they've given a "thumbs-up"
+* Cocktail submissions have their ingredients and drinkware displayed and can be clicked on for more information
+* Users can search for cocktails and ingredients, and sort the lists according to their preferences
+    - Optional search tags can be provided for cocktails and ingredients to help other users find them more easily
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Tech
 
-### `yarn build`
+The Cocktail Compendium's front-end is written in React with Redux managing state.
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+* Axios for API calls to the back-end
+* Moment library for upload dates
+* Semantic-UI and Sass for styling
+* React Router DOM
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+![app screenshot](/screenshot.png)
