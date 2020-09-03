@@ -4,7 +4,7 @@ Link to deployment: N/A
 
 ## Description
 
-The Cocktail Compendium is a community-driven web app that acts as a succinct cocktail recipe book. The app is designed to make not only the recipe submissions as easy as possible, but navigating other users' submissions easily. No ads or lengthy stories to scroll past to get to the recipes, and of course, the app is free for anyone to use.
+The Cocktail Compendium is a community-driven web app that acts as a succinct cocktail recipe book. The app is designed to make not only the recipe submissions as easy as possible, but navigating other users' submissions. No ads or lengthy stories to scroll past to get to the recipes, and of course, the app is free for anyone to use.
 
 Non-admin users will have to submit their cocktails for approval by an admin to be listed on the main page.
 
