@@ -1,6 +1,6 @@
 # The Cocktail Compendium (Front-End)
 
-Link to deployment: N/A
+Link to deployment: https://cocktailcompendium.vercel.app/
 
 ## Description
 
@@ -46,5 +46,14 @@ The Cocktail Compendium's front-end is written in React with Redux managing stat
 * Moment library for upload dates
 * Semantic-UI and Sass for styling
 * React Router DOM
+
+## To-Do
+
+[Cocktail Compendium's Trello Board](https://trello.com/b/wceacEKj/cocktail-compendium)
+
+* Settings page needs to be updated to provide functionality for account deletion and bulk submission deletions
+* Drinkware images need to be provided
+* Users can submit drinkware
+* Site needs to be mobile-friendly and 4K screen-friendly
 
 ![app screenshot](/screenshot.png)
