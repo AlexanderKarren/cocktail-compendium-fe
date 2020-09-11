@@ -128,12 +128,12 @@ const UserPage = () => {
                     <div className="user-buttons">
                         {user.same_user &&
                         <Button primary fluid icon labelPosition="right" onClick={() => push("/cocktails/new")}>
-                            Post Cocktail
+                            New Cocktail
                             <Icon name="plus"/>
                         </Button>}
                         {user.same_user &&
                         <Button primary fluid icon labelPosition="right" onClick={() => push("/ingredients/new")}>
-                            Post Ingredient
+                            New Ingredient
                             <Icon name="plus"/>
                         </Button>}
                         {/* {user.same_user &&

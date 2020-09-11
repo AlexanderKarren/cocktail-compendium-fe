@@ -10,6 +10,7 @@ import {
 
 export const initialState = {
     data: [],
+    pagination: {},
     fetchingData: false,
     fetchSuccess: false,
     fetchError: "",
@@ -24,6 +25,7 @@ export const dataReducer = (state = initialState, action) => {
             return {
                 ...state,
                 data: [],
+                pagination: {},
                 fetchingData: true,
                 fetchSuccess: false,
                 fetchError: ""
@@ -31,7 +33,8 @@ export const dataReducer = (state = initialState, action) => {
         case FETCH_SUCCESS:
             return {
                 ...state,
-                data: action.payload,
+                data: action.payload.data,
+                pagination: action.payload.pagination,
                 fetchingData: false,
                 fetchSuccess: true,
                 fetchError: ""
@@ -40,6 +43,7 @@ export const dataReducer = (state = initialState, action) => {
             return {
                 ...state,
                 data: [],
+                pagination: {},
                 fetchingData: false,
                 fetchSuccess: false,
                 fetchError: action.payload

@@ -34,9 +34,9 @@ const DataListing = props => {
                     <Link to={`/${table.toLowerCase()}/id/${cocktail.id}`}>{cocktail.name}</Link>
                     {sameUser && !table.includes("cocktails/liked") ?
                     (!verifyDelete && <div className="listing-user-ops">
-                        <div className="link-button danger" onClick={() => setVerifyDelete(true)}>Delete</div>
-                        <div>/</div>
                         <Link to={`/${table.toLowerCase()}/id/${cocktail.id}/edit`}>Edit</Link>
+                        <div>/</div>
+                        <div className="link-button danger" onClick={() => setVerifyDelete(true)}>Delete</div>
                     </div>)
                     :
                     <Link to={`/user/${cocktail.posted_by}`}>{cocktail.posted_by}</Link>
