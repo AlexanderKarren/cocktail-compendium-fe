@@ -124,7 +124,7 @@ const AddCocktail = ({ user, edit }) => {
 
     // get ingredient options
     useEffect(() => {
-        axios.get('https://the-cocktail-compendium.herokuapp.com/api/ingredients?sort=name')
+        axiosWithAuth().get('https://the-cocktail-compendium.herokuapp.com/api/ingredients?sort=name')
         .then(res => {
             console.log(res);
             const newIngredients = [];
@@ -147,11 +147,11 @@ const AddCocktail = ({ user, edit }) => {
 
     // get drinkware options
     useEffect(() => {
-        axios.get('https://the-cocktail-compendium.herokuapp.com/api/drinkware')
+        axios.get('https://the-cocktail-compendium.herokuapp.com/api/drinkware/1')
         .then(res => {
             console.log(res);
             const newDrinkware = [];
-            res.data.forEach(element => {
+            res.data.data.forEach(element => {
                 newDrinkware.push({
                     key: element.id,
                     text: element.name,
