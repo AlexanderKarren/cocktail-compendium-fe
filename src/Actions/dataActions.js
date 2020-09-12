@@ -12,12 +12,12 @@ export const DELETE_FAILURE = "DELETE_FAILURE"
 export const RESET_STATE = "RESET_STATE"
 
 // getData's only required argument is 'table'. 
-export const getData = (table, username, search, sort) => async dispatch => {
+export const getData = (table, username, page, search, sort) => async dispatch => {
     dispatch({
         type: FETCHING_DATA
     })
-
-    await axios.get(`https://the-cocktail-compendium.herokuapp.com/api/${table}/${username ? username : ""}?${search ? `search=${search}&` : ""}${sort ? `sort=${sort}` : ""}`)
+    console.log(`https://the-cocktail-compendium.herokuapp.com/api/${table}${username ? "/" + username : ""}${page ? "/" + page : ""}?${search ? `search=${search}&` : ""}${sort ? `sort=${sort}` : ""}`)
+    await axios.get(`https://the-cocktail-compendium.herokuapp.com/api/${table}${username ? "/" + username : ""}${page ? "/" + page : ""}?${search ? `search=${search}&` : ""}${sort ? `sort=${sort}` : ""}`)
     .then(res => {
         console.log(res.data);
         dispatch({

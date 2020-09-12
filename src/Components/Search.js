@@ -20,7 +20,7 @@ const ingredientOptions = [
     { key: 'users.username', value: 'users.username', text: 'Username' }
 ]
 
-const Search = ({ getData, fetchingData, setQuery, username, table, loading }) => {
+const Search = ({ getData, fetchingData, setQuery, username, table, loading, page, setPage }) => {
     const [search, updateSearch] = useState("");
     const [sort, updateSort] = useState("");
     const [clearVisible, updateClear] = useState(false);
@@ -43,20 +43,22 @@ const Search = ({ getData, fetchingData, setQuery, username, table, loading }) =
 
     const handleSortChange = (e, data) => {
         updateSort(data.value);
-        getData(table, username, null, data.value)
+        getData(table, username, 1, null, data.value)
     }
 
     const handleSubmit = event => {
+        setPage(1)
         event.preventDefault();
         setQuery(search);
-        getData(table, username, search, sort);
+        getData(table, username, 1, search, sort);
     }
 
     const clearSearch = () => {
+        setPage(1)
         updateSearch("");
         updateClear(false);
         setQuery("");
-        getData(table, username, null, sort);
+        getData(table, username, 1, null, sort);
     }
 
     return (
