@@ -3,7 +3,7 @@ import axios from 'axios'
 import axiosWithAuth from '../../utils/axiosWithAuth'
 import { useHistory, useParams } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Form, Button, Dimmer, Loader, Checkbox, Icon } from 'semantic-ui-react'
+import { Form, Button, Dimmer, Loader, Checkbox, Icon, Message } from 'semantic-ui-react'
 import cocktailPlaceholder from '../../images/placeholders/cocktail.png'
 import ingredientPlaceholder from '../../images/placeholders/ingredient.png'
 import './Add.scss'
@@ -248,6 +248,13 @@ const AddIngredient = ({ user, edit }) => {
                     <Button fluid type="button" onClick={goBack}>
                         Cancel
                     </Button>
+                    {edit && <Message 
+                        warning
+                        style={{display: "block"}}
+                    >
+                        <Message.Header>Remember:</Message.Header>
+                        <p>Changes to this ingredient will be be reflected on all cocktails that utilize it!</p>
+                    </Message>}
                 </Form>
                 <input
                     ref={uploadInput}

@@ -16,7 +16,7 @@ const Landing = () => {
             </section>
             <section>
                 <h2>About</h2>
-                <p><span>The Cocktail Compendium</span> is a full-stack indie student project. The site you see in front of you is a single-page <a href="https://reactjs.org/">React app</a> built with <a href="https://redux.js.org/">Redux.</a></p>
+                <p><span>The Cocktail Compendium</span> is a full-stack indie student project. The site you see in front of you is a single-page <a href="https://reactjs.org/">React app</a> built with <a href="https://redux.js.org/">Redux.</a> The back-end API is written in Nodejs and Express and is deployed on Heroku.</p>
             </section>
         </div>
     )
