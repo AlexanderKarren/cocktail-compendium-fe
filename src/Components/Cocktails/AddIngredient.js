@@ -253,7 +253,7 @@ const AddIngredient = ({ user, edit }) => {
                         style={{display: "block"}}
                     >
                         <Message.Header>Remember:</Message.Header>
-                        <p>Changes to this ingredient will be be reflected on all cocktails that utilize it!</p>
+                        <p>Changes made to this ingredient will be reflected on all cocktails that utilize it.</p>
                     </Message>}
                 </Form>
                 <input
