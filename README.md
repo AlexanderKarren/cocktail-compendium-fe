@@ -1,4 +1,4 @@
-# The Cocktail Compendium (Front-End)
+# ![logo](/logo.png)
 
 Link to deployment: https://cocktailcompendium.vercel.app/
 
