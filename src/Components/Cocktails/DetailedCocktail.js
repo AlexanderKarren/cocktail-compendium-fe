@@ -201,7 +201,7 @@ const DetailedCocktail = ({ user }) => {
                             <Message.Header>This drink is not approved yet</Message.Header>
                             <p>Users can see this drink if they go to your page, but it won't appear on the site's communal list.</p>
                         </Message>}
-                        {cocktail.same_user && <DataOpButtons table="cocktails" data={cocktail}/>}
+                        {(user.admin || cocktail.same_user)  && <DataOpButtons table="cocktails" data={cocktail}/>}
                     </div>
                 </div>
                 <div className="top-panel">
