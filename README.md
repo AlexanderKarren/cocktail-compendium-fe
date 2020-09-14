@@ -8,6 +8,12 @@ The Cocktail Compendium is a community-driven web app that acts as a succinct co
 
 Non-admin users will have to submit their cocktails for approval by an admin to be listed on the main page.
 
+## Changelog
+
+### Build 2 - 2020-09-11
+
+- Cocktails, ingredients and drinkware pages will now only return up to 10 results at a time, but lists can be traversed in their entirety by utilizing a pagination bar.
+
 ## Features
 
 * Custom cocktails can be submitted to the database
