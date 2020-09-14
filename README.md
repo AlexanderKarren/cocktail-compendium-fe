@@ -1,4 +1,4 @@
-# The Cocktail Compendium (Front-End)
+# ![logo](/logo.png)
 
 Link to deployment: https://cocktailcompendium.vercel.app/
 
@@ -7,6 +7,12 @@ Link to deployment: https://cocktailcompendium.vercel.app/
 The Cocktail Compendium is a community-driven web app that acts as a succinct cocktail recipe book. The app is designed to make not only the recipe submissions as easy as possible, but navigating other users' submissions. No ads or lengthy stories to scroll past to get to the recipes, and of course, the app is free for anyone to use.
 
 Non-admin users will have to submit their cocktails for approval by an admin to be listed on the main page.
+
+## Changelog
+
+### Build 2 - 2020-09-11
+
+- Cocktails, ingredients and drinkware pages will now only return up to 10 results at a time, but lists can be traversed in their entirety by utilizing a pagination bar.
 
 ## Features
 

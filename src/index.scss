@@ -107,6 +107,12 @@ form {
   flex-direction:column;
   align-items:center;
   padding: 0 15%;
+  @media #{$fhd} {
+    padding: 0 25%;
+  }
+  @media #{$fourk} {
+    padding: 0 35%;
+  }
   .pagination {
     margin:1.5rem!important;
   }
@@ -140,7 +146,10 @@ form {
     align-items: flex-end;
     padding-bottom:1.5rem;
     *:first-child, *:last-child {
-      width:25%;
+      width:13rem;
+      @media #{$fhd} {
+        width:13rem;
+      }
     }
     h2 {
       width:50%;

@@ -1,2 +1,4 @@
 // Media Queries
 $phone: "only screen and (max-device-width:500px) and (orientation: portrait)";
+$fhd: "only screen and (min-device-width:1920px)"; // 1080p
+$fourk: "only screen and (min-device-width:3840px)"; // 4K
