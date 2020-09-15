@@ -86,7 +86,7 @@ h2 {
   &.first {
     margin-top:100px;
     @media #{$phone} {
-      margin-top:5px;
+      margin-top:20px;
     }
   }
   &.small {
@@ -203,9 +203,15 @@ form {
     padding: 15px 0;
   }
   .listing-image {
-    width:70%;
+    width:12%;
     display:flex;
     align-items:center;
+    @media #{$phone} {
+      width:70%;
+    }
+    &:hover {
+      cursor:pointer;
+    }
   }
   .placeholder-listing-image {
     width:12%;

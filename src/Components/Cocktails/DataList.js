@@ -35,6 +35,7 @@ const DataList = props => {
 
     useEffect(() => {
         getData(table, username, page, query, sort);
+    // eslint-disable-next-line
     }, [getData, username, table, page])
 
     const handlePageChange = (event, { activePage }) => {

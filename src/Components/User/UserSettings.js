@@ -14,9 +14,11 @@ const UserSettings = ({ user }) => {
     const [uploading, startUploading] = useState(false);
     const [uploadError, setUploadError] = useState(null);
     const [submitting, startSubmitting] = useState(false);
+    // eslint-disable-next-line
     const [submitError, setSubmitError] = useState(false);
     const [deleteMode, setDeleteMode] = useState(false);
     const [imageLink, setImageLink] = useState(false);
+    // eslint-disable-next-line
     const [imageLinkError, setImageLinkError] = useState(null);
     const { goBack } = useHistory();
 

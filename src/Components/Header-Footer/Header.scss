@@ -90,20 +90,23 @@
     div {
         display:flex;
         justify-content:center;
-        width:7rem;
+        width:8rem;
         img {
             width:4rem;
         }
 
         .menu {
-            min-width:21rem!important;
+            min-width:23.7rem!important;
             background: linear-gradient(180deg, rgba(85,85,85,1) 0%, rgb(50, 50, 50) 100%)!important;
             .item {
                 color:white!important;
+                font-size:1.4rem!important;
+                width:100%!important;
             }
             .selected {
                 width:100%;
                 background-color:rgba(25, 25, 25, .7)!important;
+                font-weight:bold!important;
             }
         }
         .button {
@@ -111,15 +114,28 @@
             justify-content:center;
             background-color:white;
             color:black;
+            font-size:1rem;
+            &.active, &:hover {
+                background-color:snow!important;
+            }
+        }
+        &.burger-button {
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            // border:1px solid yellow;
         }
         &.account-button {
-            img {
-                max-height:100%;
-                border-radius:5px;
-                transition:.2s;
-                -webkit-box-shadow: 0px 0px 5px 3px rgba(0,0,0,0.25);
-                -moz-box-shadow: 0px 0px 5px 3px rgba(0,0,0,0.25);
-                box-shadow: 0px 0px 5px 3px rgba(0,0,0,0.25);
+            // border:1px solid yellow;
+            div {
+                img {
+                    height:100%;
+                    border-radius:5px;
+                    transition:.2s;
+                    -webkit-box-shadow: 0px 0px 5px 3px rgba(0,0,0,0.25);
+                    -moz-box-shadow: 0px 0px 5px 3px rgba(0,0,0,0.25);
+                    box-shadow: 0px 0px 5px 3px rgba(0,0,0,0.25);
+                }
             }
         }
     }

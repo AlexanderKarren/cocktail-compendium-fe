@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { Dropdown, Button, Loader } from 'semantic-ui-react'
 import logoImage from '../../images/logo_mobile.png'
@@ -22,12 +22,21 @@ const userOptions = [
 ]
 
 const MobileHeader = ({ user, handleLogOut, loggingIn }) => {
-    const { push } = useHistory();
+    const { push, location, listen } = useHistory();
+    const [currentPage, setCurrentPage] = useState(location.pathname);
+
+    useEffect(() => {
+        return listen(location => {
+             setCurrentPage(location.pathname);
+        }) 
+     },[listen]) 
 
     const handleMenuChange = (event, data) => {
         if (data.value === "sign-out") handleLogOut();
         else push(data.value);
     }
+
+    console.log(location.pathname);
 
     return (
         <header className="MobileHeader solid">
@@ -39,6 +48,7 @@ const MobileHeader = ({ user, handleLogOut, loggingIn }) => {
                     trigger={<></>}
                     icon={"bars"}
                     onChange={handleMenuChange}
+                    value={currentPage}
                 />
             </div>
             <div className="home-button">
@@ -49,7 +59,7 @@ const MobileHeader = ({ user, handleLogOut, loggingIn }) => {
             :
             <div className="account-button">
                 {user ?
-                <img src={user.profile_img_url || aviPlaceholder} alt={user.username} onClick={() => push(`/user/${user.username}`)}/>
+                <div><img src={user.profile_img_url || aviPlaceholder} alt={user.username} onClick={() => push(`/user/${user.username}`)}/></div>
                 :
                 <Button onClick={() => push("/sign-in")} className="header-button" fluid primary>Sign&nbsp;In</Button>
                 }
