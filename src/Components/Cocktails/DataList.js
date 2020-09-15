@@ -9,16 +9,25 @@ import Search from '../Search'
 
 const DataList = props => {
     const [query, setQuery] = useState("");
+    const [sort, setSort] = useState(null);
     const [page, setPage] = useState(1);
     const { getData, username, user, table } = props;
-    const { push } = useHistory();
+    const { push, listen } = useHistory();
+
+    // resets state
+    useEffect(() => {
+       return listen(() => {
+            setQuery("");
+            setSort(null);
+       }) 
+    },[listen]) 
 
     useEffect(() => {
         setPage(1)
     }, [props.table])
 
     useEffect(() => {
-        getData(table, username, page, query);
+        getData(table, username, page, query, sort);
     }, [getData, username, table, page])
 
     const handlePageChange = (event, { activePage }) => {
@@ -52,6 +61,8 @@ const DataList = props => {
                 table={table} 
                 page={page}
                 setPage={setPage}
+                sort={sort}
+                setSort={setSort}
             />
             <div className={query.length > 0 ? "search-result-message" : "search-result-message hidden"}>
                 {query.length > 0 && `Showing results for "${query}"`}
