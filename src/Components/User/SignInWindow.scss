@@ -1,10 +1,18 @@
+@import '../../utils/variables.scss';
+
 .SignInWindow {
     background-color:black;
     &.sign-in {
         background-image:url('../../images/sign-in.jpg');
+        @media #{$phone} {
+            background:white!important;
+        }
     }
     &.sign-up {
-        background-image:url('../../images/sign-up.jpg');       
+        background-image:url('../../images/sign-up.jpg');
+        @media #{$phone } {
+            background:white!important;
+        }
     }
     background-size: cover;
     width:100%;
@@ -72,6 +80,24 @@
                 border-top:1px solid lightgray;
                 display:flex;
                 justify-content:center;
+            }
+        }
+    }
+    @media #{$phone} {
+        -webkit-box-shadow: 0px 0px 0px 0px rgba(0,0,0,0.52);
+        -moz-box-shadow: 0px 0px 0px 0px rgba(0,0,0,0.52);
+        box-shadow: 0px 0px 0px 0px rgba(0,0,0,0.52);
+        .background-overlay {
+            background:none;
+            align-items:flex-start;
+            .window {
+                width:100%;
+                padding:1rem;
+                margin:0;
+                border:0;
+                form {
+                    height:70%;
+                }
             }
         }
     }

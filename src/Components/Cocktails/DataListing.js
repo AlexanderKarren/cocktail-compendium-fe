@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Moment from 'react-moment'
 import { deleteCocktail, getData } from '../../Actions/dataActions'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import cocktailPlaceholder from '../../images/placeholders/cocktail.png'
 import ingredientPlaceholder from '../../images/placeholders/ingredient.png'
 import drinkwarePlaceholder from '../../images/placeholders/drinkware.png'
@@ -11,6 +11,7 @@ import { Button, Loader } from 'semantic-ui-react'
 const DataListing = props => {
     const { cocktail, sameUser, table } = props;
     const [verifyDelete, setVerifyDelete] = useState(false);
+    const { push } = useHistory();
 
     const placeholderImage = {
         cocktails: cocktailPlaceholder,
@@ -27,7 +28,11 @@ const DataListing = props => {
     return (
         <div className="CocktailListing listing">
             {!verifyDelete && <div className="listing-image">
-                <img src={cocktail.image_url ? cocktail.image_url : placeholderImage[table.toLowerCase().replace("/", "")]} alt={table} />
+                <img 
+                    onClick={() => push(`/${table.toLowerCase()}/id/${cocktail.id}`)}
+                    src={cocktail.image_url ? cocktail.image_url : placeholderImage[table.toLowerCase().replace("/", "")]} 
+                    alt={table} 
+                />
             </div>}
             <div className={verifyDelete ? "listing-info delete-mode" : "listing-info"}>
                 {!verifyDelete && <div className="listing-header">

@@ -21,7 +21,7 @@ const DetailedCocktail = ({ user }) => {
         thumbsUp: false
     });
     const { id } = useParams();
-    const { goBack } = useHistory();
+    const { push, goBack } = useHistory();
 
     // get cocktail info
     useEffect(() => {
@@ -211,7 +211,7 @@ const DetailedCocktail = ({ user }) => {
                             {cocktail.ingredients.map(ingredient => (
                                 <div className="ingredient">
                                     <div className="ingredient-image">
-                                        <img src={ingredient.image_url || ingredientPlaceholder} alt={ingredient.name} />
+                                        <img src={ingredient.image_url || ingredientPlaceholder} alt={ingredient.name} onClick={() => push(`/ingredients/id/${ingredient.id}`)}/>
                                     </div>
                                     <div className="ingredient-info">
                                         <div>{ingredient.amount}</div>

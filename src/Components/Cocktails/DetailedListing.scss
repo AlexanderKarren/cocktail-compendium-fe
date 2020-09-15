@@ -13,6 +13,13 @@
         flex-direction:column;
         align-items:center;
         width:50%;
+        img {
+            max-width:100%;
+            height:100%;
+            &:hover {
+                cursor:pointer;
+            }
+        }
         .listing-image {
             width:20rem;
             display:flex;
@@ -72,6 +79,7 @@
                 }
                 .ingredient-image {
                     width:20%;
+                    max-height:100%;
                     display:flex;
                 }
                 .ingredient-info {
@@ -104,6 +112,9 @@
                 display:flex;
                 justify-content:center;
                 width:80%;
+            }
+            @media #{$phone} {
+                width:100%;
             }
         }
     }
@@ -152,6 +163,7 @@
             flex-direction:column;
         }
         .nested-panel {
+            margin-top:1rem;
             width:100%;
             .ingredients-container {
                 width:100%;
