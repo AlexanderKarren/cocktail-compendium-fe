@@ -62,4 +62,10 @@
     @media #{$phone} {
         display:none;
     }
+    @media #{$fhd} {
+        padding: 0 10rem;
+    }
+    @media #{$fourk} {
+        padding: 0 70rem;
+    }
 }
