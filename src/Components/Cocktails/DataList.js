@@ -27,14 +27,17 @@ const DataList = props => {
             setQuery("");
             setSort(localStorage.getItem("sort-options") ? (JSON.parse(localStorage.getItem("sort-options"))[route] || sortOptions[route]) : sortOptions[route]);
        }) 
-    },[listen]) 
+    },[listen])
 
     useEffect(() => {
         setPage(1)
     }, [props.table])
 
-    useEffect(() => {
-        getData(table, username, page, query, sort);
+    useEffect( () => {
+        const newSort = localStorage.getItem("sort-options") ? (JSON.parse(localStorage.getItem("sort-options"))[props.table.toLowerCase()] || sortOptions[props.table.toLowerCase()]) : sortOptions[props.table.toLowerCase()];
+        setSort(newSort);
+        console.log("now on", props.table)
+        getData(table, username, page, query, newSort);
     // eslint-disable-next-line
     }, [getData, username, table, page])
 
