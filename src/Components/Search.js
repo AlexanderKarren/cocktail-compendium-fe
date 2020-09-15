@@ -41,6 +41,10 @@ const Search = ({ getData, fetchingData, setQuery, username, table, loading, pag
     }
 
     const handleSortChange = (e, data) => {
+        localStorage.setItem("sort-options", JSON.stringify({
+            ...JSON.parse(localStorage.getItem("sort-options")),
+            [table.toLowerCase()]: data.value
+        }))
         console.log("handleSortChange() called")
         setSort(data.value);
         getData(table, username, page, null, data.value)
@@ -69,6 +73,7 @@ const Search = ({ getData, fetchingData, setQuery, username, table, loading, pag
                     placeholder="Sort"
                     options={options[table.toLowerCase()]}
                     onChange={handleSortChange}
+                    value={sort}
                 />
             </div>
             <div className="searchbar">

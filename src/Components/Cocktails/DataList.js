@@ -7,18 +7,25 @@ import DataListing from './DataListing'
 import { Button, Icon, Pagination } from 'semantic-ui-react'
 import Search from '../Search'
 
+const sortOptions = {
+    cocktails: "cocktails.name",
+    ingredients: "ingredient_types.name",
+    drinkware: ""
+}
+
 const DataList = props => {
     const [query, setQuery] = useState("");
-    const [sort, setSort] = useState(null);
+    const [sort, setSort] = useState(localStorage.getItem("sort-options") ? (JSON.parse(localStorage.getItem("sort-options"))[props.table.toLowerCase()] || sortOptions[props.table.toLowerCase()]) : sortOptions[props.table.toLowerCase()]);
     const [page, setPage] = useState(1);
     const { getData, username, user, table } = props;
     const { push, listen } = useHistory();
 
     // resets state
     useEffect(() => {
-       return listen(() => {
+       return listen(location => {
+            const route = location.pathname.replace("/", "");
             setQuery("");
-            setSort(null);
+            setSort(localStorage.getItem("sort-options") ? (JSON.parse(localStorage.getItem("sort-options"))[route] || sortOptions[route]) : sortOptions[route]);
        }) 
     },[listen]) 
 
