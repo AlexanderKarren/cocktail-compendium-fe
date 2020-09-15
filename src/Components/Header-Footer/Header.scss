@@ -69,3 +69,57 @@
         padding: 0 70rem;
     }
 }
+
+.MobileHeader {
+    justify-content:space-between;
+    align-items:center;
+    width:100%;
+    color:white;
+    display:none;
+    padding:1rem;
+    &.solid {
+        -webkit-box-shadow: inset 2px -2px 35px 0px rgba(0,0,0,0.75);
+        -moz-box-shadow: inset 2px -2px 35px 0px rgba(0,0,0,0.75);
+        box-shadow: inset 2px -2px 35px 0px rgba(0,0,0,0.75);
+        background: linear-gradient(180deg, rgba(85,85,85,1) 0%, rgba(0,0,0,1) 100%);
+    }
+    background: rgba(0,0,0,0);
+    @media #{$phone} {
+        display:flex;
+    }
+    div {
+        display:flex;
+        justify-content:center;
+        width:7rem;
+        img {
+            width:4rem;
+        }
+
+        .menu {
+            min-width:21rem!important;
+            background: linear-gradient(180deg, rgba(85,85,85,1) 0%, rgb(50, 50, 50) 100%)!important;
+            .item {
+                color:white!important;
+            }
+            .selected {
+                width:100%;
+                background-color:rgba(25, 25, 25, .7)!important;
+            }
+        }
+        .button {
+            display:flex;
+            justify-content:center;
+            background-color:white;
+            color:black;
+        }
+        &.account-button {
+            img {
+                border-radius:5px;
+                transition:.2s;
+                -webkit-box-shadow: 0px 0px 5px 3px rgba(0,0,0,0.25);
+                -moz-box-shadow: 0px 0px 5px 3px rgba(0,0,0,0.25);
+                box-shadow: 0px 0px 5px 3px rgba(0,0,0,0.25);
+            }
+        }
+    }
+}

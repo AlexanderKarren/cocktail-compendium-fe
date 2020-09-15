@@ -8,7 +8,7 @@ const cocktailOptions = [
     { key: 'cocktails.name', value: 'cocktails.name', text: 'Name (a - z)' },
     { key: 'cocktails.name&dir=desc', value: 'cocktails.name&dir=desc', text: 'Name (z - a)' },
     { key: 'cocktails.location_origin', value: 'cocktails.location_origin', text: 'Origin' },
-    { key: 'users.username', value: 'users.username', text: 'Username' }
+    { key: 'users.username', value: 'users.username', text: 'User' }
 ]
 
 const ingredientOptions = [
@@ -17,7 +17,7 @@ const ingredientOptions = [
     { key: 'ingredients.name', value: 'ingredients.name', text: 'Name (a - z)' },
     { key: 'ingredients.name&dir=desc', value: 'ingredients.name&dir=desc', text: 'Name (z - a)' },
     { key: 'ingredient_types.name', value: 'ingredient_types.name', text: 'Type' },
-    { key: 'users.username', value: 'users.username', text: 'Username' }
+    { key: 'users.username', value: 'users.username', text: 'User' }
 ]
 
 const Search = ({ getData, fetchingData, setQuery, username, table, loading, page, setPage, sort, setSort }) => {

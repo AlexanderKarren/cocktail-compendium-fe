@@ -3,6 +3,7 @@ import { getCurrentUser, resetUserState } from './Actions/userActions'
 import { connect } from 'react-redux'
 import { Switch, Route, useHistory, Redirect } from 'react-router-dom'
 import Header from './Components/Header-Footer/Header'
+import MobileHeader from './Components/Header-Footer/MobileHeader'
 import SignIn from './Components/User/SignIn'
 import SignUp from './Components/User/SignUp'
 import Landing from './Components/Landing'
@@ -41,6 +42,7 @@ const App = ({ getCurrentUser, resetUserState, userMatch, user, loggingIn }) => 
   return (
     <div className="App">
       <Header user={user} handleLogOut={handleLogOut} loggingIn={loggingIn}/>
+      <MobileHeader user={user} handleLogOut={handleLogOut} loggingIn={loggingIn}/>
       <Switch>
         <Route path="/sign-in"><SignIn /></Route>
         <Route path="/sign-up"><SignUp /></Route>

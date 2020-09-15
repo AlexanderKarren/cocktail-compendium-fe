@@ -1,3 +1,5 @@
+@import "../utils/variables.scss";
+
 .Search {
     display:flex;
     justify-content:space-between;
@@ -30,6 +32,22 @@
         width:15%;
         * {
             height:100%;
+        }
+    }
+    @media #{$phone} {
+        flex-direction:column;
+        align-items:center;
+        .search-sort {
+            width:100%;
+        }
+        .searchbar {
+            width:100%;
+        }
+        .search-button {
+            width:100%;
+        }
+        * {
+            padding:.1rem 0;
         }
     }
 }

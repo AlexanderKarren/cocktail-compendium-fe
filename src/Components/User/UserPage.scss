@@ -1,3 +1,5 @@
+@import '../../utils/variables.scss';
+
 .UserPage {
     width:100%;
     .user-page-container {
@@ -73,5 +75,41 @@
     }
     .DataList {
         padding:0;
+    }
+    @media #{$phone} {
+        .user-page-container {
+            padding-top:0;
+            .user-header {
+                flex-direction:column;
+                align-items:center;
+                height:auto;
+                width:100%;
+                .user-picture {
+                    order:3;
+                    width:70%;
+                    .link-button {
+                        font-size:1.3rem;
+                    }
+                }
+                .user-name {
+                    order:3;
+                    width:100%;
+                    h2 {
+                        width:100%;
+                        font-size:2.3rem;
+                    }
+                    p {
+                        width:100%;
+                    }
+                }
+                .user-buttons {
+                    order:1;
+                    width:80%;
+                    button {
+                        margin:.3rem 0;
+                    }
+                }
+            }
+        }
     }
 }
