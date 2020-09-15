@@ -11,7 +11,7 @@ const Landing = () => {
                 <div className="image-container"><img src={landingImage} alt="Three tasty drinks" /></div>
                 <div className="info-container">
                     <p>Hey, there! Welcome to The Cocktail Compendium – a community-driven effort to teach people how to make a tasty drink or two.</p>
-                    <p><Link to="/sign-up">Once you have an account</Link> (don't worry – it's a <Link to="/">breeze</Link>,) you can get to posting new cocktail recipes for the world to see. It doesn't stop there, though. Cocktails can contain elaborate homemade syrups or uncommon spirits and liqueurs you might not know too much about, so users can also post new ingredients with detailed information on origin and preparation.</p>
+                    <p><Link to="/sign-up">Once you have an account</Link> you can get to posting new cocktail recipes for the world to see. It doesn't stop there, though. Cocktails can contain elaborate homemade syrups or uncommon spirits and liqueurs you might not know too much about, so users can also post new ingredients with detailed information on origin and preparation.</p>
                 </div>
             </section>
             <section>

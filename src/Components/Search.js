@@ -20,9 +20,8 @@ const ingredientOptions = [
     { key: 'users.username', value: 'users.username', text: 'Username' }
 ]
 
-const Search = ({ getData, fetchingData, setQuery, username, table, loading, page, setPage }) => {
+const Search = ({ getData, fetchingData, setQuery, username, table, loading, page, setPage, sort, setSort }) => {
     const [search, updateSearch] = useState("");
-    const [sort, updateSort] = useState("");
     const [clearVisible, updateClear] = useState(false);
 
     const options = {
@@ -42,8 +41,13 @@ const Search = ({ getData, fetchingData, setQuery, username, table, loading, pag
     }
 
     const handleSortChange = (e, data) => {
-        updateSort(data.value);
-        getData(table, username, 1, null, data.value)
+        localStorage.setItem("sort-options", JSON.stringify({
+            ...JSON.parse(localStorage.getItem("sort-options")),
+            [table.toLowerCase()]: data.value
+        }))
+        console.log("handleSortChange() called")
+        setSort(data.value);
+        getData(table, username, page, null, data.value)
     }
 
     const handleSubmit = event => {
@@ -69,6 +73,7 @@ const Search = ({ getData, fetchingData, setQuery, username, table, loading, pag
                     placeholder="Sort"
                     options={options[table.toLowerCase()]}
                     onChange={handleSortChange}
+                    value={sort}
                 />
             </div>
             <div className="searchbar">

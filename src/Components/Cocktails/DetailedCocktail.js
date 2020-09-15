@@ -187,7 +187,7 @@ const DetailedCocktail = ({ user }) => {
                                 {ratingCount.likes}
                             </div>
                             <div className="percentage">
-                                {(parseInt(ratingCount.likes) / (parseInt(ratingCount.likes) + parseInt(ratingCount.dislikes)) * 100) || 0}%
+                                {parseInt((parseInt(ratingCount.likes) / (parseInt(ratingCount.likes) + parseInt(ratingCount.dislikes)) * 100)) || 0}%
                             </div>
                         </div>
                         :
@@ -201,7 +201,7 @@ const DetailedCocktail = ({ user }) => {
                             <Message.Header>This drink is not approved yet</Message.Header>
                             <p>Users can see this drink if they go to your page, but it won't appear on the site's communal list.</p>
                         </Message>}
-                        {(user.admin || cocktail.same_user)  && <DataOpButtons table="cocktails" data={cocktail}/>}
+                        {(cocktail.same_user)  && <DataOpButtons table="cocktails" data={cocktail}/>}
                     </div>
                 </div>
                 <div className="top-panel">
