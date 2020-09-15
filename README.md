@@ -1,6 +1,6 @@
 # ![logo](/logo.png)
 
-Link to deployment: https://cocktailcompendium.vercel.app/
+Link to deployment: https://thecocktailcompendium.app/
 
 ## Description
 

@@ -222,15 +222,20 @@ form {
         display:flex;
         justify-content:space-between;
         width:7rem;
+        @media #{$phone} {
+          div:nth-child(1) {
+            color:green;
+          }
+        }
       }
       @media #{$phone} {
         flex-direction:column;
         text-align:center;
-        a {
+        > a {
           width:100%;
           padding:.3rem 0;
         }
-        a:first-child {
+        > a:first-child {
           font-size:2rem;
         }
       }

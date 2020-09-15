@@ -11,8 +11,23 @@ const options = [
     { key: "drinkware", value: "/drinkware", text: "Drinkware"},
 ]
 
+const burgerOptions = [
+    ...options,
+    { key: "sign-up", value: "sign-up", text: "Sign Up"}
+]
+
+const userOptions = [
+    ...options,
+    { key: "sign-out", value: "sign-out", text: "Sign Out"}
+]
+
 const MobileHeader = ({ user, handleLogOut, loggingIn }) => {
-    const { push, location } = useHistory();
+    const { push } = useHistory();
+
+    const handleMenuChange = (event, data) => {
+        if (data.value === "sign-out") handleLogOut();
+        else push(data.value);
+    }
 
     return (
         <header className="MobileHeader solid">
@@ -20,10 +35,10 @@ const MobileHeader = ({ user, handleLogOut, loggingIn }) => {
                 <Dropdown
                     className='button icon'
                     floating
-                    options={options}
+                    options={user ? userOptions : burgerOptions}
                     trigger={<></>}
                     icon={"bars"}
-                    onChange={(e, d) => push(d.value)}
+                    onChange={handleMenuChange}
                 />
             </div>
             <div className="home-button">
