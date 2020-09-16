@@ -142,6 +142,12 @@ form {
       .info-container {
         width:55%;
       }
+      @media #{$phone} {
+        flex-direction:column;
+        .image-container, .info-container {
+          width:100%;
+        }
+      }
     }
   }
   .search-result-message {

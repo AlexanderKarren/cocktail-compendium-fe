@@ -74,6 +74,7 @@ const Search = ({ getData, fetchingData, setQuery, username, table, loading, pag
                     options={options[table.toLowerCase()]}
                     onChange={handleSortChange}
                     value={sort}
+                    disabled={table === "cocktails/liked"}
                 />
             </div>
             <div className="searchbar">
@@ -91,6 +92,7 @@ const Search = ({ getData, fetchingData, setQuery, username, table, loading, pag
                     icon
                     iconPosition="left"
                     loading={loading}
+                    disabled={table === "cocktails/liked"}
                 >
                     <input />
                     <Icon name="search" />
@@ -100,7 +102,7 @@ const Search = ({ getData, fetchingData, setQuery, username, table, loading, pag
                 {fetchingData ?
                 <Button fluid primary loading disabled>Loading</Button>
                 :   
-                <Button fluid primary type="submit">
+                <Button fluid primary type="submit" disabled={table === "cocktails/liked"}>
                     Search    
                 </Button>}
             </div>

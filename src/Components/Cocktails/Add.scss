@@ -1,3 +1,5 @@
+@import '../../utils/variables.scss';
+
 .add {
     .form-body {
         border-top:1px solid lightgray;
@@ -63,6 +65,24 @@
                     &:hover {
                         font-size:1.5rem;
                         cursor:pointer;
+                    }
+                }
+            }
+        }
+        @media #{$phone} {
+            flex-direction:column;
+            .image-upload-container, form {
+                width:100%;
+                padding:0;
+                .dropdown-container {
+                    .amount {
+                        width:15%;
+                    }
+                    .dropdown {
+                        width:66%;
+                    }
+                    .drop-button {
+                        width:15%;
                     }
                 }
             }
