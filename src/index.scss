@@ -93,7 +93,7 @@ h2 {
     font-size:2.5rem;
   }
   @media #{$phone} {
-    margin:5px;
+    margin:0;
   }
 }
 
@@ -257,7 +257,6 @@ form {
       min-height:4rem;
       @media #{$phone} {
         display:none;
-        text-align:center;
       }
     }
     .listing-date {
