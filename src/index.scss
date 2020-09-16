@@ -256,6 +256,7 @@ form {
       margin-top:5px;
       min-height:4rem;
       @media #{$phone} {
+        display:none;
         text-align:center;
       }
     }
