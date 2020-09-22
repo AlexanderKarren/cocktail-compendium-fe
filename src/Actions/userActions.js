@@ -7,7 +7,6 @@ export const USER_FAILURE = "USER_FAILURE"
 export const RESET_USER_STATE = "RESET_USER_STATE"
 
 export const getCurrentUser = username => async dispatch => {
-    console.log("should be setting state")
     dispatch({
         type: FETCHING_USER
     })

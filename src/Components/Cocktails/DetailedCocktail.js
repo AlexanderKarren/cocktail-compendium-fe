@@ -236,7 +236,7 @@ const DetailedCocktail = ({ user }) => {
             </div>
             :
             cocktailError ? 
-            <ErrorPage error={cocktailError} />
+            <ErrorPage code={404} error={cocktailError} />
             :
             <div className="page-loading">
                 <Loader active />

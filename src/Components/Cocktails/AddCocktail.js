@@ -4,9 +4,13 @@ import axiosWithAuth from '../../utils/axiosWithAuth'
 import { useHistory, useParams } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Form, Button, Icon, Dimmer, Loader, Checkbox } from 'semantic-ui-react'
+
 import cocktailPlaceholder from '../../images/placeholders/cocktail.png'
 import ingredientPlaceholder from '../../images/placeholders/ingredient.png'
 import drinkwarePlaceholder from '../../images/placeholders/drinkware.png'
+
+import ErrorPage from '../ErrorPage'
+
 import './Add.scss'
 
 const AddCocktail = ({ user, edit }) => {
@@ -35,6 +39,7 @@ const AddCocktail = ({ user, edit }) => {
         deleting: false
     }]);
     const [drinkwareOptions, updateDrinkwareOptions] = useState(null);
+    const [authError, setAuthError] = useState(null);
     const { push, goBack } = useHistory();
     const { id } = useParams();
 
@@ -43,7 +48,7 @@ const AddCocktail = ({ user, edit }) => {
         updateValues({
             ...values,
             [event.target.name]: event.target.value
-        })
+        });
     }
 
     const handleCheckChange = () => {
@@ -261,31 +266,36 @@ const AddCocktail = ({ user, edit }) => {
 
     // if edit mode, update values with cocktail user is editing
     useEffect(() => {
-        if (edit) axios.get(`https://the-cocktail-compendium.herokuapp.com/api/cocktails/id/${id}`)
+        if (edit && user) axios.get(`https://the-cocktail-compendium.herokuapp.com/api/cocktails/id/${id}`)
             .then(res => {
-                console.log(res.data);
-                updateIngredients(res.data.ingredients.map(ingredient => {
-                    return {
-                        amount: ingredient.amount,
-                        id: ingredient.id,
-                        relationship_id: ingredient.relationship_id,
-                        original: true
-                    }
-                }))
-                updateValues({
-                    name: res.data.name,
-                    description: res.data.description,
-                    preparation: res.data.preparation || "",
-                    location_origin: res.data.location_origin || "",
-                    tags: res.data.tags || "",
-                    image_url: res.data.image_url || "",
-                    drinkware: res.data.drinkware[0].id || "",
-                    alcoholic: res.data.alcoholic
-                })
+                if (user.admin === true || user.id === res.data.poster_id) {
+                    console.log(res.data);
+                    updateIngredients(res.data.ingredients.map(ingredient => {
+                        return {
+                            amount: ingredient.amount,
+                            id: ingredient.id,
+                            relationship_id: ingredient.relationship_id,
+                            original: true
+                        }
+                    }))
+                    updateValues({
+                        name: res.data.name,
+                        description: res.data.description,
+                        preparation: res.data.preparation || "",
+                        location_origin: res.data.location_origin || "",
+                        tags: res.data.tags || "",
+                        image_url: res.data.image_url || "",
+                        drinkware: res.data.drinkware[0].id || "",
+                        alcoholic: res.data.alcoholic
+                    })
+                }
+                else setAuthError("You do not have permission to edit this cocktail.");
             })
             .catch(error => {
                 console.log(error);
             })
+        else if (edit) setAuthError("You do not have permission to edit this cocktail.");
+        // eslint-disable-next-line
     }, [edit, id])
 
     const handleImageError = event => {
@@ -295,8 +305,9 @@ const AddCocktail = ({ user, edit }) => {
 
     return (
         <div className="page add">
-            <h2 className="first">{edit ? "Edit" : "New"} Cocktail</h2>
-            <div className="form-body">
+            {!authError && <h2 className="first">{edit ? "Edit" : "New"} Cocktail</h2>}
+            {authError ? <ErrorPage code={403} error={authError} />
+            : <div className="form-body">
                 <div className="image-upload-container">
                     <Dimmer.Dimmable as="div" dimmed={uploadingImage} className="image-upload">
                         <img src={values.image_url ? values.image_url : cocktailPlaceholder} onError={handleImageError} alt="cocktail" />
@@ -449,7 +460,7 @@ const AddCocktail = ({ user, edit }) => {
                     hidden
                     onChange={uploadImage}
                 />
-            </div>
+            </div>}
         </div>
     )
 }

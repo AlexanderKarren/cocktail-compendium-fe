@@ -54,7 +54,7 @@ const DetailedDrinkware = () => {
             </div>
             :
             glassError ? 
-            <ErrorPage error={glassError} />
+            <ErrorPage code={404} error={glassError} />
             :
             <div className="page-loading">
                 <Loader active />

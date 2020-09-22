@@ -75,7 +75,7 @@ const DetailedIngredient = () => {
             </div>
             :
             ingredientError ? 
-            <ErrorPage error={ingredientError} />
+            <ErrorPage code={404} error={ingredientError} />
             :
             <div className="page-loading">
                 <Loader active />
