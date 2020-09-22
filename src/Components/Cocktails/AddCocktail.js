@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react'
 import axios from 'axios'
 import axiosWithAuth from '../../utils/axiosWithAuth'
-import { useHistory, useParams } from 'react-router-dom'
+import { Link, useHistory, useParams } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Form, Button, Icon, Dimmer, Loader, Checkbox } from 'semantic-ui-react'
+import { Form, Button, Icon, Dimmer, Loader, Checkbox, Message } from 'semantic-ui-react'
 
 import cocktailPlaceholder from '../../images/placeholders/cocktail.png'
 import ingredientPlaceholder from '../../images/placeholders/ingredient.png'
@@ -40,6 +40,7 @@ const AddCocktail = ({ user, edit }) => {
     }]);
     const [drinkwareOptions, updateDrinkwareOptions] = useState(null);
     const [authError, setAuthError] = useState(null);
+    const [hideMessage, setHideMessage] = useState(() => localStorage.getItem("cocktail-options") ? JSON.parse(localStorage.getItem("cocktail-options")).hide_ing_message : false)
     const { push, goBack } = useHistory();
     const { id } = useParams();
 
@@ -125,6 +126,14 @@ const AddCocktail = ({ user, edit }) => {
                 ing
             }))
         })
+    }
+
+    const dismissMessage = () => {
+        localStorage.setItem("cocktail-options", JSON.stringify({
+            ...JSON.parse(localStorage.getItem("cocktail-options")),
+            hide_ing_message: true
+        }))
+        setHideMessage(true);
     }
 
     // get ingredient options
@@ -402,6 +411,10 @@ const AddCocktail = ({ user, edit }) => {
                     >
                         <Icon name="plus" />
                     </Button>
+                    {!hideMessage && <Message onDismiss={dismissMessage}>
+                        <Message.Header>Can't find what you need?</Message.Header>
+                        <p><Link to="/ingredients/new">You can add new ingredients</Link> to the database to use in your recipes.</p>
+                    </Message>}
                     <Form.Dropdown
                         label="Drinkware"
                         className="dropdown"

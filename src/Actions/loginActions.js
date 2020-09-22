@@ -16,6 +16,7 @@ export const userSignIn = user => async dispatch => {
     })
     await axios.post('https://the-cocktail-compendium.herokuapp.com/api/users/login', user)
     .then(res => {
+        // console.log(res.data);
         localStorage.setItem('user-token', JSON.stringify({
             token: res.data.token,
             username: res.data.username
@@ -26,6 +27,7 @@ export const userSignIn = user => async dispatch => {
         })
     })
     .catch(error => {
+        // console.log(error);
         dispatch({
             type: SIGN_IN_FAILURE,
             payload: error.response.data.error
@@ -34,7 +36,7 @@ export const userSignIn = user => async dispatch => {
 }
 
 export const userRegister = user => async dispatch => {
-    console.log((user.email.length > 0));
+    // console.log((user.email.length > 0));
     dispatch({
         type: START_REGISTERING
     })
@@ -49,7 +51,7 @@ export const userRegister = user => async dispatch => {
         })
     })
     .catch(error => {
-        console.log(error.response.data.error);
+        // console.log(error.response.data.error);
         dispatch({
             type: REGISTER_FAILURE,
             payload: error.response.data.error

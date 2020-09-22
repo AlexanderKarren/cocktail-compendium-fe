@@ -41,8 +41,8 @@ const Search = ({ getData, fetchingData, setQuery, username, table, loading, pag
     }
 
     const handleSortChange = (e, data) => {
-        localStorage.setItem("sort-options", JSON.stringify({
-            ...JSON.parse(localStorage.getItem("sort-options")),
+        localStorage.setItem("cocktail-options", JSON.stringify({
+            ...JSON.parse(localStorage.getItem("cocktail-options")),
             [table.toLowerCase()]: data.value
         }))
         console.log("handleSortChange() called")

@@ -15,7 +15,7 @@ const sortOptions = {
 
 const DataList = props => {
     const [query, setQuery] = useState("");
-    const [sort, setSort] = useState(localStorage.getItem("sort-options") ? (JSON.parse(localStorage.getItem("sort-options"))[props.table.toLowerCase()] || sortOptions[props.table.toLowerCase()]) : sortOptions[props.table.toLowerCase()]);
+    const [sort, setSort] = useState(localStorage.getItem("cocktail-options") ? (JSON.parse(localStorage.getItem("cocktail-options"))[props.table.toLowerCase()] || sortOptions[props.table.toLowerCase()]) : sortOptions[props.table.toLowerCase()]);
     const [page, setPage] = useState(1);
     const { getData, username, user, table } = props;
     const { push, listen } = useHistory();
@@ -25,7 +25,7 @@ const DataList = props => {
        return listen(location => {
             const route = location.pathname.replace("/", "");
             setQuery("");
-            setSort(localStorage.getItem("sort-options") ? (JSON.parse(localStorage.getItem("sort-options"))[route] || sortOptions[route]) : sortOptions[route]);
+            setSort(localStorage.getItem("cocktail-options") ? (JSON.parse(localStorage.getItem("cocktail-options"))[route] || sortOptions[route]) : sortOptions[route]);
        }) 
     },[listen])
 
@@ -34,7 +34,7 @@ const DataList = props => {
     }, [props.table])
 
     useEffect( () => {
-        const newSort = localStorage.getItem("sort-options") ? (JSON.parse(localStorage.getItem("sort-options"))[props.table.toLowerCase()] || sortOptions[props.table.toLowerCase()]) : sortOptions[props.table.toLowerCase()];
+        const newSort = localStorage.getItem("cocktail-options") ? (JSON.parse(localStorage.getItem("cocktail-options"))[props.table.toLowerCase()] || sortOptions[props.table.toLowerCase()]) : sortOptions[props.table.toLowerCase()];
         setSort(newSort);
         console.log("now on", props.table)
         getData(table, username, page, query, newSort);
