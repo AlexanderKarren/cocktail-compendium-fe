@@ -125,7 +125,7 @@ const UserPage = () => {
                             onChange={(e, d) => setTable(d.value)}
                         />
                     </div>
-                    <div className="user-buttons">
+                    <div className={user.same_user && user.admin ? "user-buttons tight" : "user-buttons"}>
                         {user.same_user &&
                         <Button primary fluid icon labelPosition="right" onClick={() => push("/cocktails/new")}>
                             New Cocktail
@@ -138,13 +138,18 @@ const UserPage = () => {
                         </Button>}
                         {/* {user.same_user &&
                         <Button primary fluid icon>
-                            Post Drinkware
+                            New Drinkware
                             <Icon name="plus"/>
                         </Button>} */}
                         {user.same_user &&
                         <Button fluid icon labelPosition="right" onClick={() => push("/user/settings")}>
                             Account Settings
                             <Icon name="setting"/>
+                        </Button>}
+                        {(user.same_user && user.admin) &&
+                        <Button fluid icon labelPosition="right" onClick={() => push("/admin")}>
+                            Admin Dashboard
+                            <Icon name="id badge"/>
                         </Button>}
                     </div>
                 </div>
